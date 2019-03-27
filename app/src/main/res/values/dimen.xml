@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="rounded_radius">200dp</dimen>
+    <dimen name="dp10">10dp</dimen>
+    <dimen name="dp15">15dp</dimen>
+    <dimen name="dp20">20dp</dimen>
+    <dimen name="dp2">2dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+    <dimen name="dp5">5dp</dimen>
+    <dimen name="dp30">30dp</dimen>
+    <dimen name="dp50">50dp</dimen>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp35">35dp</dimen>
+
+    <dimen name="sp12">12sp</dimen>
+    <dimen name="sp14">14sp</dimen>
+    <dimen name="sp16">16sp</dimen>
+    <dimen name="sp18">18sp</dimen>
+    <dimen name="sp10">10sp</dimen>
+    <dimen name="sp22">22sp</dimen>
+    <dimen name="sp24">24sp</dimen>
+    <dimen name="sp20">20sp</dimen>
+    <dimen name="sp30">30sp</dimen>
+    <dimen name="sp70">70sp</dimen>
+
+    <dimen name="slider_height">350sp</dimen>
+    <dimen name="circle_indicator_size">8dp</dimen>
+    <dimen name="circle_indicator_layout_size">16dp</dimen>
+    <dimen name="main_item_size">100dp</dimen>
+    <dimen name="main_sub_item_size">75dp</dimen>
+
+    <dimen name="item_kategori_width">120dp</dimen>
+    <dimen name="icon_width">50dp</dimen>
+    <dimen name="icon_height">30dp</dimen>
+
+    <dimen name="user_profile_size">48dp</dimen>
+    <dimen name="gradient_height">100dp</dimen>
+
+    <dimen name="upload_barang_button_height">52dp</dimen>
+    <dimen name="upload_barang_header_icon_size">80dp</dimen>
+    <dimen name="order_merchandise_jumlah_size">200dp</dimen>
+    <dimen name="order_merchandise_button_size">200dp</dimen>
+
+    <dimen name="penawaran_satu_gambar_height">300dp</dimen>
+    <dimen name="penawaran_dua_gambar_height">160dp</dimen>
+
+    <dimen name="image_zoom_navigation_size">35dp</dimen>
+    <dimen name="main_logo_height">30dp</dimen>
+    <dimen name="main_logo_width">100dp</dimen>
+</resources>

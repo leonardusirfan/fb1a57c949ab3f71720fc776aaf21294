@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_collapseMode="pin"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="#fff"
+        android:theme="@style/AppTheme.ActionBar"
+        android:elevation="0dp"/>
+
+    <ScrollView
+        android:layout_below="@id/toolbar"
+        android:layout_above="@id/btn_upload"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp20"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_nama"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <EditText
+                android:id="@+id/txt_nama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textCursorDrawable="@null"
+                android:inputType="text"
+                android:textSize="@dimen/sp16" />
+
+            <TextView
+                android:id="@+id/lbl_harga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_harga"
+                android:padding="@dimen/dp5"
+                style="@style/Input" />
+
+            <EditText
+                android:id="@+id/txt_harga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/sp16"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/lbl_harga_normal"
+                android:padding="@dimen/dp5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_harga_normal"
+                android:visibility="gone"
+                style="@style/Input" />
+
+            <EditText
+                android:id="@+id/txt_harga_normal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/sp16"
+                android:visibility="gone"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/lbl_selesai_lelang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp5"
+                android:text="@string/lelang_waktu"
+                android:visibility="gone"
+                style="@style/Input" />
+
+            <TextView
+                android:id="@+id/txt_selesai_lelang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/sp16"
+                android:visibility="gone"
+                android:textColor="#000"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:text="-" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp5"
+                android:text="@string/upload_barang_berat"
+                style="@style/Input"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txt_berat"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/sp16"
+                    android:inputType="number"/>
+
+                <Spinner
+                    android:id="@+id/spn_satuan_berat"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/grey"
+                    android:textSize="@dimen/sp16"
+                    android:entries="@array/satuan_berat"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_ukuran"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <EditText
+                android:id="@+id/txt_ukuran"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/sp16"
+                android:inputType="number"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/barang_kondisi"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <Spinner
+                android:id="@+id/spn_kondisi"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textSize="@dimen/sp16"
+                android:entries="@array/item_kondisi"/>
+
+            <TextView
+                android:id="@+id/lbl_lama_terpakai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/barang_lama_terpakai"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <LinearLayout
+                android:id="@+id/layout_lama_terpakai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txt_lama_terpakai"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/sp16"
+                    android:inputType="number"/>
+
+                <Spinner
+                    android:id="@+id/spn_lama_terpakai"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/grey"
+                    android:textSize="@dimen/sp16"
+                    android:entries="@array/satuan_lama_terpakai"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_kategori"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <Spinner
+                android:id="@+id/spn_kategori"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textSize="@dimen/sp16" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_merk"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <Spinner
+                android:id="@+id/spn_brand"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textSize="@dimen/sp16" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_deskripsi"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <EditText
+                android:id="@+id/txt_deskripsi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textCursorDrawable="@null"
+                android:inputType="text"
+                android:textSize="@dimen/sp16" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:textCursorDrawable="@null"
+                android:text="@string/upload_barang_foto"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_foto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@color/grey"
+                android:layout_marginTop="@dimen/dp10"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:text="Upload"
+        android:layout_alignParentBottom="true"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp18"
+        android:padding="@dimen/dp15"/>
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_edit"
+        android:title="Edit Order"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_batal"
+        android:title="Batalkan Order"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_penawaran"
+        android:title="Penawaran Desain"
+        app:showAsAction="always" />
+</menu>

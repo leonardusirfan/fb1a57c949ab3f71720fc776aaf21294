@@ -1,0 +1,63 @@
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/layout_overlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="@dimen/dp10"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.otaliastudios.zoom.ZoomLayout
+        android:id="@+id/layout_zoom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical|horizontal"
+        app:overScrollHorizontal="true"
+        app:overScrollVertical="true"
+        app:overPinchable="true"
+        app:horizontalPanEnabled="true"
+        app:verticalPanEnabled="true"
+        app:zoomEnabled="true"
+        app:hasClickableChildren="false">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/layout_galeri_selected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/dp5">
+
+            <ImageView
+                android:id="@+id/img_galeri_selected"
+                android:contentDescription="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_next"
+                app:layout_constraintStart_toEndOf="@+id/btn_previous"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+        </android.support.v7.widget.CardView>
+
+    </com.otaliastudios.zoom.ZoomLayout>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="@dimen/image_zoom_navigation_size"
+        android:layout_height="@dimen/image_zoom_navigation_size"
+        android:layout_marginEnd="@dimen/dp10"
+        android:background="@drawable/nextshadow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_previous"
+        android:layout_width="@dimen/image_zoom_navigation_size"
+        android:layout_height="@dimen/image_zoom_navigation_size"
+        android:background="@drawable/previousshadow"
+        android:layout_marginStart="@dimen/dp10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

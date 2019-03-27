@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MerchandisePenawaranActivity">
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_penawaran"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/txt_kosong"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/sp30"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        android:text="Belum ada \npenawaran"
+        android:textColor="@color/grey"
+        android:gravity="center"/>
+
+</android.support.constraint.ConstraintLayout>
