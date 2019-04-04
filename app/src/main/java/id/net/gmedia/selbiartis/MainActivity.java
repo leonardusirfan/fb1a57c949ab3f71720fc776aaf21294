@@ -6,26 +6,30 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.leonardus.irfan.ApiVolleyManager;
 import com.leonardus.irfan.AppRequestCallback;
 import com.leonardus.irfan.ImageSlider.ImageSlider;
 import com.leonardus.irfan.ImageSlider.ImageSliderAdapter;
 import com.leonardus.irfan.JSONBuilder;
+import com.leonardus.irfan.TopCropCircularImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +45,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
+        /*setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
         if(getSupportActionBar() != null){
             getSupportActionBar().setTitle("");
-        }
+        }*/
 
         slider = findViewById(R.id.slider);
 
-        findViewById(R.id.img_barang).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_upload).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DisplayMetrics metrics = getResources().getDisplayMetrics();
@@ -57,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
 
                 Dialog dialog = new Dialog(MainActivity.this);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.popup_barang_tambah);
+                dialog.setContentView(R.layout.popup_upload);
 
                 if(dialog.getWindow() != null){
-                    dialog.getWindow().setLayout(device_TotalWidth, device_TotalHeight * 60 / 100); // set here your value
+                    dialog.getWindow().setLayout(device_TotalWidth, device_TotalHeight * 70 / 100); // set here your value
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -97,35 +101,61 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                dialog.findViewById(R.id.btn_galeri).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MainActivity.this, UploadFeedActivity.class);
+                        i.putExtra(Constant.EXTRA_START_POSITION, 1);
+                        startActivity(i);
+                    }
+                });
+
+                dialog.findViewById(R.id.btn_kegiatan).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MainActivity.this, UploadFeedActivity.class);
+                        i.putExtra(Constant.EXTRA_START_POSITION, 0);
+                        startActivity(i);
+                    }
+                });
+
+                /*
                 dialog.findViewById(R.id.txt_pesan).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(MainActivity.this, MerchandiseOrderActivity.class));
                     }
-                });
+                });*/
 
                 dialog.show();
             }
         });
 
-        findViewById(R.id.img_riwayat).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.action_notif).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, NotifActivity.class));
+            }
+        });
+
+        findViewById(R.id.action_chat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ChatActivity.class));
+            }
+        });
+
+        findViewById(R.id.action_order).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, OrderActivity.class));
+            }
+        });
+
+       findViewById(R.id.btn_riwayat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, RiwayatActivity.class));
-            }
-        });
-
-        findViewById(R.id.img_feed).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, UploadFeedActivity.class));
-            }
-        });
-
-        findViewById(R.id.img_profil).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ProfilActivity.class));
             }
         });
 
@@ -136,7 +166,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btn_greeting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, OrderGreetingActivity.class));
+            }
+        });
+
+        loadProfil();
         loadSlider();
+    }
+
+    private void loadProfil(){
+        ApiVolleyManager.getInstance().addRequest(this, Constant.URL_PROFIL, ApiVolleyManager.METHOD_GET,
+                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), new AppRequestCallback(new AppRequestCallback.RequestListener() {
+                    @Override
+                    public void onEmpty(String message) {
+                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        try{
+                            JSONObject artis = new JSONObject(result);
+
+                            //Inisialisasi UI terkait artis
+                            Glide.with(MainActivity.this).load(artis.getString("foto")).
+                                    thumbnail(0.3f).apply(new RequestOptions().dontTransform().
+                                    dontAnimate().priority(Priority.IMMEDIATE).override(500, 300)).
+                                    transition(DrawableTransitionOptions.withCrossFade()).into((TopCropCircularImageView)findViewById(R.id.img_artis));
+
+                            ((TextView)findViewById(R.id.txt_artis)).setText(artis.getString("profile_name"));
+                        }
+                        catch (JSONException e){
+                            Toast.makeText(MainActivity.this, R.string.error_json, Toast.LENGTH_SHORT).show();
+                            Log.e(Constant.TAG, e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String message) {
+                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }));
     }
 
     private void loadSlider(){
@@ -174,32 +246,6 @@ public class MainActivity extends AppCompatActivity {
         slider.setIndicator(indicator);
         slider.setAdapter(sliderAdapter);
         slider.setAutoscroll(2500);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_notif:{
-                startActivity(new Intent(MainActivity.this, NotifActivity.class));
-                break;
-            }
-            case R.id.action_chat:{
-                startActivity(new Intent(MainActivity.this, ChatActivity.class));
-                break;
-            }
-            case R.id.action_order:{
-                startActivity(new Intent(MainActivity.this, OrderActivity.class));
-                break;
-            }
-            default:break;
-        }
-        return true;
     }
 
     @Override

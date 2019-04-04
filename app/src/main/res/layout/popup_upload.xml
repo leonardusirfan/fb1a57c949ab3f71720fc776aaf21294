@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F8F3">
+
+    <LinearLayout
+        android:id="@+id/btn_galeri"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp15"
+            android:text="Upload Profil"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold"
+            android:textColor="#052C3A"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:padding="@dimen/dp5"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp15"
+                android:text="Upload Galeri"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_light_divider"
+            android:layout_height="@dimen/dp1"
+            android:layout_width="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/btn_kegiatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:padding="@dimen/dp5"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp15"
+                android:text="Upload Kegiatan"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_light_divider"
+            android:layout_height="@dimen/dp1"
+            android:layout_width="match_parent"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp15"
+            android:background="#F7F8F3"
+            android:text="Upload Barang"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold"
+            android:textColor="#052C3A"/>
+
+        <LinearLayout
+            android:id="@+id/btn_preloved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:padding="@dimen/dp5"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp15"
+                android:text="Upload Preloved"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_light_divider"
+            android:layout_height="@dimen/dp1"
+            android:layout_width="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/btn_merchandise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:padding="@dimen/dp5"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp15"
+                android:text="Upload Merchandise"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_light_divider"
+            android:layout_height="@dimen/dp1"
+            android:layout_width="match_parent"/>
+
+        <LinearLayout
+            android:id="@+id/btn_lelang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:padding="@dimen/dp5"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp15"
+                android:text="Upload Lelang"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp15"
+            android:background="#F7F8F3"
+            android:text="Upload Video"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold"
+            android:textColor="#052C3A"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1"
+                android:padding="@dimen/dp5"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="0.9"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp15"
+                android:text="Upload Video Greeting"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -3,6 +3,7 @@ package id.net.gmedia.selbiartis;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -54,7 +55,14 @@ public class UploadFeedActivity extends AppCompatActivity {
             }
         });
 
-        loadFragment(listFragment.get(0));
+        int startPosition = getIntent().getIntExtra(Constant.EXTRA_START_POSITION, 0);
+        if(startPosition == 0){
+            loadFragment(listFragment.get(startPosition));
+        }
+        else{
+            tabLayout.getTabAt(startPosition).select();
+        }
+
     }
 
     private void loadFragment(Fragment fragment){

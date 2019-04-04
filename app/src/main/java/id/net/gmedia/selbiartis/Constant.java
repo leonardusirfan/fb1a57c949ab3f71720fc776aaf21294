@@ -26,6 +26,7 @@ public class Constant {
     public static final String EXTRA_USER = "user";
     public static final String EXTRA_CHAT_FROM = "from";
     public static final String EXTRA_MERCHANDISE = "merchandise";
+    public static final String EXTRA_START_POSITION = "start";
 
     public static final int BARANG_PRELOVED = 19;
     public static final int BARANG_LELANG = 18;
@@ -59,6 +60,8 @@ public class Constant {
     public static final String URL_MERCHANDISE_BATAL = BASE_URL + "Merchandise/batal_order_merchandise";
     public static final String URL_NOTIF_LIST = BASE_URL + "Notif";
     public static final String URL_NOTIF_READ = BASE_URL + "Notif/update_notif";
+    public static final String URL_GREETING_LIST = BASE_URL + "Greeting/index";
+    public static final String URL_STATUS_MASTER = BASE_URL + "Main/status";
 
     //Token heaader dengan enkripsi
     public static Map<String, String> getTokenHeader(String uuid){

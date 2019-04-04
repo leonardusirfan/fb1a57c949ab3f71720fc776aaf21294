@@ -7,13 +7,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:theme">
-        <activity android:name=".MerchandisePenawaranActivity"
-            android:theme="@style/AppTheme"/>
+        <activity android:name=".OrderGreetingActivity" />
+        <activity
+            android:name=".MerchandisePenawaranActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ChatDetailActivity"
             android:theme="@style/AppTheme"
@@ -27,8 +29,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".OrderActivity"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".ProfilActivity" />
         <activity
             android:name=".UploadFeedActivity"
@@ -38,9 +40,10 @@
         <activity
             android:name=".ChatActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="ACT_CHAT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
