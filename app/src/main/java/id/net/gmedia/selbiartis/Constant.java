@@ -1,5 +1,6 @@
 package id.net.gmedia.selbiartis;
 
+import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 
@@ -24,6 +25,7 @@ public class Constant {
     public static final String EXTRA_ID_MERCHANDISE = "id_barang";
     public static final String EXTRA_ID_ORDER = "id_barang_edit";
     public static final String EXTRA_USER = "user";
+    public static final String EXTRA_NAMA_USER = "user";
     public static final String EXTRA_CHAT_FROM = "from";
     public static final String EXTRA_MERCHANDISE = "merchandise";
     public static final String EXTRA_START_POSITION = "start";
@@ -31,11 +33,14 @@ public class Constant {
     public static final int BARANG_PRELOVED = 19;
     public static final int BARANG_LELANG = 18;
     public static final int BARANG_MERCHANDISE = 17;
+    public static final int BARANG_DONASI = 16;
 
     //URL Request
     private static final String BASE_URL = "http://gmedia.bz/selbi/api/";
     public static final String URL_HOME_SLIDE = BASE_URL + "Slider/index";
+    public static final String URL_BARANG_MASTER = BASE_URL + "Produk/index";
     public static final String URL_HOME_CATEGORY = BASE_URL + "Category/index";
+    public static final String URL_BARANG_LELANG = BASE_URL + "Lelang/index";
     public static final String URL_HOME_BRAND = BASE_URL + "Brand/index";
     public static final String URL_AUTENTIFIKASI = BASE_URL + "Authentication/register";
     public static final String URL_UPLOAD_GAMBAR = BASE_URL + "Feed/add_image";
@@ -103,5 +108,9 @@ public class Constant {
             case 2:return "tahun";
             default:return "";
         }
+    }
+
+    public static String getPathfromDrawable(int res_int){
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" + res_int).toString();
     }
 }

@@ -43,6 +43,25 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowContentTransitions">true</item>-->
         <item name="android:windowBackground">@color/white</item>
+        <item name="colorControlNormal">@color/black</item>
+
+        <!-- Color for circle in progress bar -->
+        <!--<item name="colorControlActivated">@color/blue</item>
+        &lt;!&ndash; Style menu action bar &ndash;&gt;
+        <item name="actionButtonStyle">@style/AppTheme.Widget.ActionButton</item>
+
+        <item name="android:windowSharedElementEnterTransition">@transition/transition_shared_element</item>
+        <item name="android:windowSharedElementExitTransition">@transition/transition_shared_element_reverse</item>-->
+    </style>
+
+    <style name="AppTheme.NoActionBar.WHITE" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:windowContentTransitions">true</item>-->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
 
         <!-- Color for circle in progress bar -->
         <!--<item name="colorControlActivated">@color/blue</item>

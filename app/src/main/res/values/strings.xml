@@ -75,7 +75,7 @@
     <string name="barang_spesifikasi">Spesifikasi</string>
     <string name="barang_kategori">Kategori</string>
     <string name="barang_berat">Berat</string>
-    <string name="barang_lama_terpakai">Lama Terpakai</string>
+    <string name="barang_lama_terpakai">Lama Pemakaian</string>
     <string name="barang_merk">Merk</string>
     <string name="barang_deskripsi">Deskripsi</string>
     <string name="barang_pesan">Pesan</string>
@@ -127,7 +127,7 @@
     <string name="upload_barang_harga_normal">"Harga Normal (Opsional)"</string>
     <string name="upload_barang_berat">"Berat Barang"</string>
     <string name="upload_barang_ukuran">"Ukuran"</string>
-    <string name="upload_barang_kategori">"Kategori"</string>
+    <string name="upload_barang_kategori">"Jenis Barang"</string>
     <string name="upload_barang_merk">"Merk"</string>
     <string name="upload_barang_deskripsi">"Deskripsi Barang"</string>
     <string name="upload_barang_foto">"Foto"</string>

@@ -1,28 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MerchandisePenawaranActivity">
-    
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_penawaran"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible">
 
-    </android.support.v7.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/txt_kosong"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/sp30"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        android:text="Belum ada \npenawaran"
-        android:textColor="@color/grey"
-        android:gravity="center"/>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout_approval">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F7F8F3"
+                    android:maxLines="2"
+                    android:padding="@dimen/dp20"
+                    android:text="@string/lorem_ipsum"
+                    android:textAlignment="center"
+                    android:textStyle="italic"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_penawaran"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <TextView
+            android:id="@+id/txt_kosong"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Belum ada \npenawaran"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/sp22"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_approval"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/btn_tolak"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text="Tolak"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="@dimen/dp15"
+            android:background="#D1151F"/>
+
+        <TextView
+            android:id="@+id/btn_setuju"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:text="Setuju"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="@dimen/dp15"
+            android:background="@color/blue"/>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

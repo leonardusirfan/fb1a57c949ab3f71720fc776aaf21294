@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:theme">
+        <activity android:name=".BarangActivity"
+            android:theme="@style/AppTheme"/>
+        <activity android:name=".AkunProfilActivity" />
+        <activity
+            android:name=".MerchandiseKonfirmasiActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".OrderGreetingActivity" />
         <activity
             android:name=".MerchandisePenawaranActivity"
@@ -31,7 +37,9 @@
             android:name=".OrderActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ProfilActivity" />
+        <activity
+            android:name=".AkunActivity"
+            android:theme="@style/AppTheme.NoActionBar.WHITE" />
         <activity
             android:name=".UploadFeedActivity"
             android:screenOrientation="portrait"
@@ -52,10 +60,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MerchandiseOrderActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".UploadBarangActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".MainActivity"

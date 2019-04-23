@@ -48,7 +48,7 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.Katego
             public void onClick(View v) {
                 //set kategori dalam halaman tampilan
                 if(activity instanceof MerchandiseOrderActivity){
-                    ((MerchandiseOrderActivity)activity).setKategori(listKategori.get(position).getId());
+                    //((MerchandiseOrderActivity)activity).setKategori(listKategori.get(position).getId());
                 }
 
                 int previous = selected;

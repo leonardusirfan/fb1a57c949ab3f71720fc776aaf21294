@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                     android:id="@+id/txt_warna"
                     android:layout_width="@dimen/order_merchandise_jumlah_size"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/style_fullrounded_black_bordered_white_rectangle"
+                    android:background="@drawable/style_underline_black"
                     android:padding="@dimen/dp10"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -124,7 +124,7 @@
                     android:id="@+id/txt_ukuran"
                     android:layout_width="@dimen/order_merchandise_jumlah_size"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/style_fullrounded_black_bordered_white_rectangle"
+                    android:background="@drawable/style_underline_black"
                     android:padding="@dimen/dp10"
                     android:gravity="center"
                     android:textStyle="bold"
@@ -147,7 +147,7 @@
                         android:id="@+id/txt_jumlah"
                         android:layout_width="@dimen/order_merchandise_jumlah_size"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/style_fullrounded_black_bordered_white_rectangle"
+                        android:background="@drawable/style_underline_black"
                         android:padding="@dimen/dp10"
                         android:inputType="number"
                         android:textStyle="bold"
@@ -198,7 +198,7 @@
                         android:id="@+id/txt_harga_jual"
                         android:layout_width="@dimen/order_merchandise_jumlah_size"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/style_fullrounded_black_bordered_white_rectangle"
+                        android:background="@drawable/style_underline_black"
                         android:inputType="number"
                         android:padding="@dimen/dp10"
                         android:gravity="center"
@@ -247,7 +247,7 @@
                     android:id="@+id/txt_catatan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/style_fullrounded_black_bordered_white_rectangle"
+                    android:background="@drawable/style_underline_black"
                     android:inputType="textMultiLine"
                     android:padding="@dimen/dp10"
                     android:gravity="center"
@@ -289,18 +289,20 @@
 
                 </LinearLayout>
 
+                <Button
+                    android:id="@+id/btn_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/style_rounded_blue_rectangle"
+                    android:layout_marginTop="@dimen/dp20"
+                    android:layout_marginBottom="@dimen/dp20"
+                    android:text="ORDER"
+                    android:textSize="@dimen/sp16"
+                    android:textColor="@color/white"/>
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
     </android.support.design.widget.CoordinatorLayout>
-
-    <Button
-        android:id="@+id/btn_order"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:text="ORDER"
-        android:textSize="@dimen/sp16"
-        android:textColor="@color/white"/>
 
 </LinearLayout>

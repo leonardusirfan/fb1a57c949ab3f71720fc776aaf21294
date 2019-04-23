@@ -6,9 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -69,7 +67,7 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
     public void onBindViewHolder(@NonNull MerchandisePenawaranViewHolder holder, int i) {
         final PenawaranModel p = listDesain.get(i);
 
-        if(p.getStatus() == 1){
+        /*if(p.getStatus() == 1){
             holder.layout_approval.setVisibility(View.VISIBLE);
             holder.txt_status.setVisibility(View.GONE);
         }
@@ -78,14 +76,14 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
             holder.txt_status.setVisibility(View.VISIBLE);
 
             holder.txt_status.setText(p.getStatus_string());
-        }
+        }*/
 
         holder.txt_penawaran.setText(p.getJudul());
         if (!p.getKeterangan().equals("")){
             holder.txt_keterangan.setVisibility(View.VISIBLE);
             holder.txt_keterangan.setText(p.getKeterangan());
         }
-        holder.btn_terima.setOnClickListener(new View.OnClickListener() {
+        /*holder.btn_terima.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((MerchandisePenawaranActivity)activity).responPenawaran(true, p.getId(), p.getTerima());
@@ -96,7 +94,7 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
             public void onClick(View v) {
                 ((MerchandisePenawaranActivity)activity).responPenawaran(false, p.getId(), p.getTolak());
             }
-        });
+        });*/
 
         if(holder instanceof MerchandisePenawaranSatu){
             Glide.with(activity).load(p.getListDesain().get(0)).transition(DrawableTransitionOptions.withCrossFade()).
@@ -161,18 +159,19 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
 
     class MerchandisePenawaranViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView txt_penawaran, txt_keterangan, txt_status;
-        private LinearLayout layout_approval;
-        private Button btn_terima, btn_tolak;
+        private TextView txt_penawaran, txt_keterangan;
+        //private txt_status;
+        //private LinearLayout layout_approval;
+        //private Button btn_terima, btn_tolak;
 
         MerchandisePenawaranViewHolder(@NonNull View itemView) {
             super(itemView);
             txt_penawaran = itemView.findViewById(R.id.txt_penawaran);
             txt_keterangan = itemView.findViewById(R.id.txt_keterangan);
-            btn_terima = itemView.findViewById(R.id.btn_terima);
-            btn_tolak = itemView.findViewById(R.id.btn_tolak);
-            layout_approval = itemView.findViewById(R.id.layout_approval);
-            txt_status = itemView.findViewById(R.id.txt_status);
+            /*btn_terima = itemView.findViewById(R.id.btn_terima);
+            btn_tolak = itemView.findViewById(R.id.btn_tolak);*/
+            //layout_approval = itemView.findViewById(R.id.layout_approval);
+            //txt_status = itemView.findViewById(R.id.txt_status);
         }
     }
 

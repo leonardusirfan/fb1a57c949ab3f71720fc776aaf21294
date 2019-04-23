@@ -3,21 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
+    android:background="#F7F8F3"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
+   <!-- <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="#fff"
-        android:theme="@style/AppTheme.ActionBar"
-        android:elevation="0dp"/>
+        android:background="@color/white"
+        app:titleTextColor="@color/black"
+        android:elevation="0dp"/>-->
 
     <ScrollView
         android:layout_below="@id/toolbar"
-        android:layout_above="@id/btn_upload"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,183 +26,218 @@
             android:padding="@dimen/dp20"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/upload_barang_nama"
-                android:padding="@dimen/dp5"
-                style="@style/Input"/>
-
-            <EditText
-                android:id="@+id/txt_nama"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/grey"
-                android:textCursorDrawable="@null"
-                android:inputType="text"
-                android:textSize="@dimen/sp16" />
-
-            <TextView
-                android:id="@+id/lbl_harga"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/upload_barang_harga"
-                android:padding="@dimen/dp5"
-                style="@style/Input" />
-
-            <EditText
-                android:id="@+id/txt_harga"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/grey"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/sp16"
-                android:inputType="number" />
-
-            <TextView
-                android:id="@+id/lbl_harga_normal"
-                android:padding="@dimen/dp5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/upload_barang_harga_normal"
-                android:visibility="gone"
-                style="@style/Input" />
-
-            <EditText
-                android:id="@+id/txt_harga_normal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/grey"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/sp16"
-                android:visibility="gone"
-                android:inputType="number" />
-
-            <TextView
-                android:id="@+id/lbl_selesai_lelang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp5"
-                android:text="@string/lelang_waktu"
-                android:visibility="gone"
-                style="@style/Input" />
-
-            <TextView
-                android:id="@+id/txt_selesai_lelang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/grey"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/sp16"
-                android:visibility="gone"
-                android:textColor="#000"
-                android:paddingTop="@dimen/dp10"
-                android:paddingBottom="@dimen/dp10"
-                android:text="-" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/dp5"
-                android:text="@string/upload_barang_berat"
-                style="@style/Input"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10">
 
-                <EditText
-                    android:id="@+id/txt_berat"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.5"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/sp16"
-                    android:inputType="number"/>
+                <CheckBox
+                    android:id="@+id/cb_lelang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-                <Spinner
-                    android:id="@+id/spn_satuan_berat"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.5"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:backgroundTint="@color/grey"
-                    android:textSize="@dimen/sp16"
-                    android:entries="@array/satuan_berat"/>
+                    android:textCursorDrawable="@null"
+                    android:text="Lelang"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp14"
+                    android:padding="@dimen/dp5"
+                    style="@style/Input"/>
+
+                <CheckBox
+                    android:id="@+id/cb_donasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textCursorDrawable="@null"
+                    android:text="Donasi"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp14"
+                    android:padding="@dimen/dp5"
+                    style="@style/Input"/>
 
             </LinearLayout>
 
-            <TextView
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/layout_lelang"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/upload_barang_ukuran"
-                android:padding="@dimen/dp5"
-                style="@style/Input"/>
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginBottom="@dimen/dp10"
+                app:cardCornerRadius="@dimen/dp2">
 
-            <EditText
-                android:id="@+id/txt_ukuran"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/grey"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/sp16"
-                android:inputType="number"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/barang_kondisi"
-                android:padding="@dimen/dp5"
-                style="@style/Input"/>
-
-            <Spinner
-                android:id="@+id/spn_kondisi"
-                android:layout_width="match_parent"
-                android:paddingTop="@dimen/dp10"
-                android:paddingBottom="@dimen/dp10"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/grey"
-                android:textSize="@dimen/sp16"
-                android:entries="@array/item_kondisi"/>
-
-            <TextView
-                android:id="@+id/lbl_lama_terpakai"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/barang_lama_terpakai"
-                android:padding="@dimen/dp5"
-                style="@style/Input"/>
-
-            <LinearLayout
-                android:id="@+id/layout_lama_terpakai"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/txt_lama_terpakai"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.5"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/sp16"
-                    android:inputType="number"/>
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp10">
 
-                <Spinner
-                    android:id="@+id/spn_lama_terpakai"
-                    android:layout_width="0dp"
-                    android:layout_weight="0.5"
-                    android:layout_height="match_parent"
-                    android:backgroundTint="@color/grey"
-                    android:textSize="@dimen/sp16"
-                    android:entries="@array/satuan_lama_terpakai"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Keterangan Lelang"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp14"
+                        android:textStyle="bold"
+                        android:padding="@dimen/dp5" />
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+    
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/dp5"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp14"
+                            android:text="Harga Maksimal : " />
+
+                        <EditText
+                            android:id="@+id/txt_harga_maksimal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/grey"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/sp14"
+                            android:inputType="number" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/lbl_selesai_lelang"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp5"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp14"
+                        android:textStyle="bold"
+                        android:text="@string/lelang_waktu" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp5"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp14"
+                            android:text="Awal Lelang : " />
+
+                        <TextView
+                            android:id="@+id/txt_mulai_lelang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/grey"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/sp14"
+                            android:padding="@dimen/dp10"
+                            android:inputType="number" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp14"
+                            android:text="Akhir Lelang : "
+                            android:padding="@dimen/dp5"/>
+
+                        <TextView
+                            android:id="@+id/txt_selesai_lelang"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/grey"
+                            android:textCursorDrawable="@null"
+                            android:textSize="@dimen/sp14"
+                            android:padding="@dimen/dp10"
+                            android:inputType="number" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.design.card.MaterialCardView>
+
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/layout_donasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_marginBottom="@dimen/dp10"
+                app:cardCornerRadius="@dimen/dp2"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp10">
+
+                    <TextView
+                        android:id="@+id/lbl_tujuan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tujuan Donasi"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp14"
+                        android:textStyle="bold"
+                        android:padding="@dimen/dp5"
+                        style="@style/Input" />
+
+                    <Spinner
+                        android:id="@+id/spn_tujuan"
+                        android:layout_width="match_parent"
+                        android:paddingTop="@dimen/dp10"
+                        android:paddingBottom="@dimen/dp10"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:textSize="@dimen/sp14" />
+
+                    <TextView
+                        android:id="@+id/lbl_persen_donasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/dp5"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp14"
+                        android:textStyle="bold"
+                        android:text="Persenan Donasi"
+                        style="@style/Input" />
+
+                    <EditText
+                        android:id="@+id/txt_persen_donasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/sp14"
+                        android:inputType="number" />
+                </LinearLayout>
+
+            </android.support.design.card.MaterialCardView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/upload_barang_kategori"
+                android:text="Jenis Barang"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
                 android:padding="@dimen/dp5"
                 style="@style/Input"/>
 
@@ -214,12 +248,34 @@
                 android:paddingBottom="@dimen/dp10"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/grey"
-                android:textSize="@dimen/sp16" />
+                android:textSize="@dimen/sp14" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Judul Barang"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
+                android:padding="@dimen/dp5"
+                style="@style/Input"/>
+
+            <EditText
+                android:id="@+id/txt_nama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textCursorDrawable="@null"
+                android:inputType="text"
+                android:textSize="@dimen/sp14" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/upload_barang_merk"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
                 android:padding="@dimen/dp5"
                 style="@style/Input"/>
 
@@ -230,23 +286,237 @@
                 android:paddingBottom="@dimen/dp10"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/grey"
-                android:textSize="@dimen/sp16" />
+                android:textSize="@dimen/sp14" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/upload_barang_deskripsi"
+                android:padding="@dimen/dp5"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
+                android:text="Spesifikasi"
+                android:layout_marginBottom="@dimen/dp10"
+                style="@style/Input"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dp15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/dp5"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp14"
+                    android:text="Warna   : "
+                    style="@style/Input"/>
+
+                <EditText
+                    android:id="@+id/txt_warna"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/sp14"
+                    android:inputType="number"/>
+
+                <!--<Spinner
+                    android:id="@+id/spn_satuan_berat"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/grey"
+                    android:textSize="@dimen/sp14"
+                    android:entries="@array/satuan_berat"/>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dp15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/dp5"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp14"
+                    android:text="Berat     : "
+                    style="@style/Input"/>
+
+                <EditText
+                    android:id="@+id/txt_berat"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/sp14"
+                    android:inputType="number"/>
+
+                <Spinner
+                    android:id="@+id/spn_satuan_berat"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/grey"
+                    android:textSize="@dimen/sp14"
+                    android:entries="@array/satuan_berat"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/dp15">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/dp5"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp14"
+                    android:text="Ukuran  : "
+                    style="@style/Input"/>
+
+                <EditText
+                    android:id="@+id/txt_ukuran"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/sp14"
+                    android:inputType="number"/>
+
+                <!--<Spinner
+                    android:id="@+id/spn_satuan_berat"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/grey"
+                    android:textSize="@dimen/sp14"
+                    android:entries="@array/satuan_berat"/>-->
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/barang_kondisi"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
+                android:padding="@dimen/dp5"
+                android:layout_marginTop="@dimen/dp10"
+                style="@style/Input"/>
+
+            <Spinner
+                android:id="@+id/spn_kondisi"
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:textSize="@dimen/sp14"
+                android:entries="@array/item_kondisi"/>
+
+            <TextView
+                android:id="@+id/lbl_lama_terpakai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/barang_lama_terpakai"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
                 android:padding="@dimen/dp5"
                 style="@style/Input"/>
 
+            <LinearLayout
+                android:id="@+id/layout_lama_terpakai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_lama_terpakai"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/sp14"
+                        android:inputType="number"/>
+
+                    <Spinner
+                        android:id="@+id/spn_lama_terpakai"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="match_parent"
+                        android:backgroundTint="@color/grey"
+                        android:textSize="@dimen/sp14"
+                        android:entries="@array/satuan_lama_terpakai"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Riwayat Barang"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/sp14"
+                        android:padding="@dimen/dp5"
+                        style="@style/Input"/>
+
+                    <EditText
+                        android:id="@+id/txt_deskripsi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/grey"
+                        android:textCursorDrawable="@null"
+                        android:inputType="textMultiLine"
+                        android:textSize="@dimen/sp14" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lbl_harga"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/upload_barang_harga"
+                android:padding="@dimen/dp5"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
+                style="@style/Input" />
+
             <EditText
-                android:id="@+id/txt_deskripsi"
+                android:id="@+id/txt_harga"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/grey"
                 android:textCursorDrawable="@null"
-                android:inputType="text"
-                android:textSize="@dimen/sp16" />
+                android:textSize="@dimen/sp14"
+                android:inputType="number" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -254,6 +524,9 @@
                 android:layout_marginTop="@dimen/dp10"
                 android:textCursorDrawable="@null"
                 android:text="@string/upload_barang_foto"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp14"
                 android:padding="@dimen/dp5"
                 style="@style/Input"/>
 
@@ -264,19 +537,18 @@
                 android:src="@color/grey"
                 android:layout_marginTop="@dimen/dp10"/>
 
+            <Button
+                android:id="@+id/btn_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/style_rounded_darkblue_rectangle"
+                android:text="Kirim"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp18"
+                android:layout_marginTop="@dimen/dp20"/>
+
         </LinearLayout>
 
     </ScrollView>
-
-    <Button
-        android:id="@+id/btn_upload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        android:text="Upload"
-        android:layout_alignParentBottom="true"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp18"
-        android:padding="@dimen/dp15"/>
 </RelativeLayout>

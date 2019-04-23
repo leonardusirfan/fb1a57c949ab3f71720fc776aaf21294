@@ -11,11 +11,11 @@
         android:hint="@string/upload_foto_tulis"
         android:inputType="textMultiLine"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
         android:minLines="5"
         android:maxLines="5"
         android:padding="@dimen/dp10"
-        android:textSize="@dimen/sp16"
-        android:background="#fff"/>
+        android:textSize="@dimen/sp16" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_upload"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/colorPrimaryDark"
-        android:text="Upload"
+        android:text="Kirim"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/sp18"

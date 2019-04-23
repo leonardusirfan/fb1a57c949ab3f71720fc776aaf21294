@@ -14,4 +14,9 @@
         android:id="@+id/action_penawaran"
         android:title="Penawaran Desain"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_konfirmasi"
+        android:title="Konfirmasi Merchandise"
+        app:showAsAction="always" />
 </menu>

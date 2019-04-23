@@ -30,6 +30,9 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
     private TextView txt_kosong;
     private RecyclerView rv_penawaran;
 
+    private String id_setuju;
+    private String id_tolak;
+
     private OrderModel order;
     private List<PenawaranModel> listPenawaran = new ArrayList<>();
     private MerchandisePenawaranAdapter adapter;
@@ -90,9 +93,11 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
                                         response.getJSONObject(i).getString("title"),
                                         response.getJSONObject(i).getInt("status"),
                                         response.getJSONObject(i).getString("status_tawar"),
-                                        response.getJSONObject(i).getString("keterangan"),
-                                        response.getJSONObject(i).getString("setuju"),
-                                        response.getJSONObject(i).getString("tolak"));
+                                        response.getJSONObject(i).getString("keterangan"));
+
+                                id_setuju = response.getJSONObject(i).getString("setuju");
+                                id_tolak = response.getJSONObject(i).getString("tolak");
+
                                 JSONArray images = response.getJSONObject(i).getJSONArray("images");
                                 for(int j = 0; j < images.length(); j++){
                                     penawaran.addDesain(images.getJSONObject(j).getString("path") +

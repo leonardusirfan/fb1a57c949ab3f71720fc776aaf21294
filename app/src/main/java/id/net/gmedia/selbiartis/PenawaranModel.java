@@ -11,16 +11,12 @@ public class PenawaranModel {
     private String status_string;
     private List<String> listDesain = new ArrayList<>();
 
-    private String terima;
-    private String tolak;
+    private boolean selected = false;
 
-    public PenawaranModel(String id, String judul, int status, String status_string, String keterangan, String terima, String tolak){
+    public PenawaranModel(String id, String judul, int status, String status_string, String keterangan){
         this.id = id;
         this.judul = judul;
         this.keterangan = keterangan;
-
-        this.terima = terima;
-        this.tolak = tolak;
 
         this.status = status;
         this.status_string = status_string;
@@ -42,12 +38,12 @@ public class PenawaranModel {
         return keterangan;
     }
 
-    public String getTerima() {
-        return terima;
+    public boolean isSelected() {
+        return selected;
     }
 
-    public String getTolak() {
-        return tolak;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public String getJudul() {

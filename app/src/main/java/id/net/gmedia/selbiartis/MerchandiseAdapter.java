@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -47,7 +48,7 @@ public class MerchandiseAdapter extends RecyclerView.Adapter<MerchandiseAdapter.
         artisViewHolder.txt_merchandise.setText(merchandise.getNama());
         Glide.with(context).load(merchandise.getUrl()).apply(new RequestOptions().dontAnimate().dontTransform()).
                 thumbnail(0.5f).transition(DrawableTransitionOptions.withCrossFade()).into(artisViewHolder.img_merchandise);
-        artisViewHolder.img_merchandise.setOnClickListener(new View.OnClickListener() {
+        artisViewHolder.layout_merchandise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(activity, MerchandiseOrderDetailActivity.class);
@@ -65,7 +66,7 @@ public class MerchandiseAdapter extends RecyclerView.Adapter<MerchandiseAdapter.
     class MerchandiseViewHolder extends RecyclerView.ViewHolder{
 
         private TextView txt_merchandise;
-        private TopCropImageView img_merchandise;
+        private ImageView img_merchandise;
         private CardView layout_merchandise;
 
         MerchandiseViewHolder(@NonNull View itemView) {

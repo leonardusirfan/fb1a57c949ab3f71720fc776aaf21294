@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,54 +10,188 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
         tools:context=".MainActivity"
         android:paddingBottom="@dimen/dp15">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <LinearLayout
+            android:id="@+id/layout_header"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@color/light_blue"
-            app:layout_constraintBottom_toTopOf="@+id/horizontal1"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content"
+            android:background="@color/light_blue"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingBottom="@dimen/dp35">
 
-        <com.leonardus.irfan.TopCropCircularImageView
-            android:id="@+id/img_artis"
-            android:layout_width="@dimen/medium_user_profile_size"
-            android:layout_height="@dimen/medium_user_profile_size"
-            android:layout_marginBottom="@dimen/dp20"
-            app:layout_constraintBottom_toTopOf="@+id/materialCardView"
-            app:layout_constraintEnd_toStartOf="@+id/vertical2"
-            app:layout_constraintStart_toStartOf="@+id/vertical1" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:elevation="0dp"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.design.card.MaterialCardView
-            android:id="@+id/materialCardView"
+            <com.leonardus.irfan.TopCropCircularImageView
+                android:id="@+id/img_artis"
+                android:layout_width="@dimen/medium_user_profile_size"
+                android:layout_height="@dimen/medium_user_profile_size"
+                android:layout_marginBottom="@dimen/dp20"
+                android:layout_marginTop="@dimen/dp10"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/txt_artis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp20"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp20"
+                android:textStyle="bold"
+                android:layout_marginStart="@dimen/dp20"
+                android:layout_marginEnd="@dimen/dp20"
+                app:layout_constraintEnd_toStartOf="@+id/vertical2"
+                app:layout_constraintStart_toStartOf="@+id/vertical1"
+                app:layout_constraintTop_toBottomOf="@+id/img_artis" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_main"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:cardCornerRadius="@dimen/dp10"
-            app:layout_constraintDimensionRatio="h,1:0.2"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintEnd_toStartOf="@+id/vertical2"
-            app:layout_constraintStart_toStartOf="@+id/vertical1">
+            android:layout_marginStart="@dimen/dp15"
+            android:layout_marginEnd="@dimen/dp15"
+            app:layout_constraintTop_toBottomOf="@+id/guideline"
+            app:layout_constraintDimensionRatio="h,1:0.33"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
 
-            <LinearLayout
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/btn_upload_kegiatan"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dp5"
+                app:cardCornerRadius="@dimen/dp5">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:padding="@dimen/dp10"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@id/lbl_upload_kegiatan"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconuploadfeed"/>
+
+                    <TextView
+                        android:id="@+id/lbl_upload_kegiatan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:minLines="2"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_alignParentBottom="true"
+                        android:text="Upload Kegiatan"
+                        android:textSize="@dimen/sp10" />
+                </RelativeLayout>
+
+            </android.support.design.card.MaterialCardView>
+
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/btn_riwayat"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dp5"
+                app:cardCornerRadius="@dimen/dp5">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:padding="@dimen/dp10"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@id/lbl_riwayat"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconriwayat"/>
+
+                    <TextView
+                        android:id="@+id/lbl_riwayat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:minLines="2"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_alignParentBottom="true"
+                        android:text="Riwayat"
+                        android:textSize="@dimen/sp10" />
+                </RelativeLayout>
+
+            </android.support.design.card.MaterialCardView>
+
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/btn_upload_barang"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dp5"
+                app:cardCornerRadius="@dimen/dp5">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:padding="@dimen/dp10"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@id/lbl_upload_barang"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/iconupladbarang"/>
+
+                    <TextView
+                        android:id="@+id/lbl_upload_barang"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:minLines="2"
+                        android:text="Upload Barang"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_alignParentBottom="true"
+                        android:textSize="@dimen/sp10" />
+                </RelativeLayout>
+
+            </android.support.design.card.MaterialCardView>
+
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="@dimen/dp10">
-
-                <TextView
-                    android:id="@+id/txt_artis"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp10"
-                    android:layout_weight="0.6"
-                    android:gravity="center_vertical"
-                    android:minLines="2"
-                    android:ellipsize="end"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/sp16"
-                    android:textColor="@color/black" />
 
                 <ImageView
                     android:id="@+id/action_notif"
@@ -66,6 +200,7 @@
                     android:layout_height="@dimen/medium_icon_size"
                     android:layout_marginStart="@dimen/dp5"
                     android:layout_marginEnd="@dimen/dp5"
+                    android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/ic_notif" />
 
                 <ImageView
@@ -75,6 +210,7 @@
                     android:layout_height="@dimen/medium_icon_size"
                     android:layout_marginStart="@dimen/dp5"
                     android:layout_marginEnd="@dimen/dp5"
+                    android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/ic_chat" />
 
                 <ImageView
@@ -84,28 +220,30 @@
                     android:layout_height="@dimen/medium_icon_size"
                     android:layout_marginStart="@dimen/dp5"
                     android:layout_marginEnd="@dimen/dp10"
+                    android:foreground="?attr/selectableItemBackground"
                     android:src="@drawable/ic_order" />
 
-                <ImageView
+                &lt;!&ndash;<ImageView
                     android:layout_width="0dp"
                     android:layout_weight="0.1"
                     android:layout_height="@dimen/medium_icon_size"
                     android:layout_marginStart="@dimen/dp5"
                     android:layout_marginEnd="@dimen/dp10"
-                    android:src="@drawable/ic_order" />
+                    android:foreground="?attr/selectableItemBackground"
+                    android:src="@drawable/ic_order" />&ndash;&gt;
 
-            </LinearLayout>
+            </LinearLayout>-->
 
-        </android.support.design.card.MaterialCardView>
+        </LinearLayout>
 
         <View
             android:id="@+id/guideline"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dp35"
+            android:layout_marginBottom="@dimen/dp35"
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            app:layout_constraintBottom_toBottomOf="@id/layout_header"
             tools:layout_editor_absoluteX="0dp" />
 
         <TextView
@@ -114,10 +252,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp15"
             android:text="Rekomendasi Merchandise"
-            android:textSize="@dimen/sp10"
+            android:textSize="@dimen/sp12"
             app:layout_constraintBottom_toTopOf="@+id/materialCardView2"
             app:layout_constraintStart_toStartOf="@+id/vertical1"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+            app:layout_constraintTop_toBottomOf="@+id/layout_main"
             app:layout_constraintVertical_chainStyle="spread" />
 
         <TextView
@@ -125,7 +263,8 @@
             android:layout_height="wrap_content"
             android:text="Lihat semua"
             android:textColor="@color/light_blue"
-            android:textSize="@dimen/sp10"
+            android:textSize="@dimen/sp12"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/vertical2"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -201,125 +340,28 @@
 
         </LinearLayout>
 
-        <android.support.design.card.MaterialCardView
-            android:id="@+id/btn_upload"
+        <TextView
+            android:id="@+id/txt_special_offer"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_marginStart="@dimen/dp5"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:gravity="center"
             android:layout_marginTop="@dimen/dp15"
-            android:layout_marginEnd="@dimen/dp10"
-            android:layout_marginBottom="@dimen/dp10"
-            android:orientation="vertical"
-            app:cardCornerRadius="@dimen/dp10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintDimensionRatio="1:1.3"
-            app:layout_constraintEnd_toStartOf="@+id/btn_greeting"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/vertical1"
-            app:layout_constraintTop_toBottomOf="@+id/btn_order_merchandise">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <com.leonardus.irfan.TopCropCircularImageView
-                    android:layout_width="@dimen/user_profile_size"
-                    android:layout_height="@dimen/user_profile_size"
-                    android:layout_centerInParent="true"
-                    android:src="@color/blue" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minLines="2"
-                    android:text="Upload"
-                    android:layout_alignParentBottom="true"
-                    android:textSize="@dimen/sp10" />
-            </RelativeLayout>
-
-        </android.support.design.card.MaterialCardView>
-
-        <android.support.design.card.MaterialCardView
-            android:id="@+id/btn_greeting"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_marginStart="@dimen/dp5"
-            android:layout_marginEnd="@dimen/dp5"
-            android:orientation="vertical"
-            app:cardCornerRadius="@dimen/dp10"
-            app:layout_constraintDimensionRatio="1:1.3"
-            app:layout_constraintEnd_toStartOf="@+id/btn_riwayat"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_upload"
-            app:layout_constraintTop_toTopOf="@+id/btn_upload">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <com.leonardus.irfan.TopCropCircularImageView
-                    android:layout_width="@dimen/user_profile_size"
-                    android:layout_height="@dimen/user_profile_size"
-                    android:layout_centerInParent="true"
-                    android:src="@color/blue"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minLines="2"
-                    android:text="Order Greeting"
-                    android:layout_alignParentBottom="true"
-                    android:textSize="@dimen/sp10" />
-            </RelativeLayout>
-
-        </android.support.design.card.MaterialCardView>
-
-        <android.support.design.card.MaterialCardView
-            android:id="@+id/btn_riwayat"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_marginStart="@dimen/dp10"
-            android:layout_marginEnd="@dimen/dp5"
-            android:orientation="vertical"
-            app:cardCornerRadius="@dimen/dp10"
-            app:layout_constraintDimensionRatio="1:1.3"
             app:layout_constraintEnd_toStartOf="@+id/vertical2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/btn_greeting"
-            app:layout_constraintTop_toTopOf="@+id/btn_upload">
+            app:layout_constraintStart_toStartOf="@+id/vertical1"
+            app:layout_constraintTop_toBottomOf="@+id/btn_order_merchandise" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <com.leonardus.irfan.TopCropCircularImageView
-                    android:layout_width="@dimen/user_profile_size"
-                    android:layout_height="@dimen/user_profile_size"
-                    android:layout_centerInParent="true"
-                    android:src="@color/blue"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minLines="2"
-                    android:text="Riwayat"
-                    android:layout_alignParentBottom="true"
-                    android:textSize="@dimen/sp10" />
-            </RelativeLayout>
-
-        </android.support.design.card.MaterialCardView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_special_offer"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:focusable="false"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp15"
+            app:layout_constraintEnd_toStartOf="@+id/vertical2"
+            app:layout_constraintStart_toStartOf="@+id/vertical1"
+            app:layout_constraintTop_toBottomOf="@+id/txt_special_offer" />
 
         <android.support.constraint.Guideline
             android:id="@+id/vertical1"
@@ -335,13 +377,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.925" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/horizontal1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.26" />
-
     </android.support.constraint.ConstraintLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

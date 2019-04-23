@@ -47,10 +47,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.txt_catatan.setText(order.getCatatan());
 
         Glide.with(activity).load(order.getGambar()).transition(DrawableTransitionOptions.withCrossFade()).into(holder.img_order);
-        holder.img_option.setOnClickListener(new View.OnClickListener() {
+        holder.layout_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(activity, holder.img_option, Gravity.END);
+                PopupMenu popup = new PopupMenu(activity, holder.layout_root, Gravity.END);
                 //Inflating the Popup using xml file
                 popup.getMenuInflater()
                         .inflate(R.menu.menu_order, popup.getMenu());
@@ -65,20 +65,28 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                                 i.putExtra(Constant.EXTRA_ID_MERCHANDISE, order.getId_merchandise());
                                 i.putExtra(Constant.EXTRA_ID_ORDER, order.getId_order());
                                 activity.startActivity(i);
-                                break;
+                                return true;
                             }
-                            case R.id.action_batal:
-                                ((OrderActivity)activity).batalOrder(order.getId_order());
-                                break;
-                            case R.id.action_penawaran:{
+                            case R.id.action_batal: {
+                                ((OrderActivity) activity).batalOrder(order.getId_order());
+                                return true;
+                            }
+                            case R.id.action_penawaran: {
                                 Intent i = new Intent(activity, MerchandisePenawaranActivity.class);
                                 i.putExtra(Constant.EXTRA_MERCHANDISE, gson.toJson(order));
                                 activity.startActivity(i);
-                                break;
+                                return true;
+                            }
+                            case R.id.action_konfirmasi:{
+                                Intent i = new Intent(activity, MerchandiseKonfirmasiActivity.class);
+                                i.putExtra(Constant.EXTRA_MERCHANDISE, gson.toJson(order));
+                                activity.startActivity(i);
+                                return true;
+                            }
+
+                            default:return true;
                             }
                         }
-                        return true;
-                    }
                 });
 
                 popup.show(); //showing popup menu
@@ -93,8 +101,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
     class OrderViewHolder extends RecyclerView.ViewHolder{
 
+        View layout_root;
         TextView txt_nama, txt_harga, txt_jumlah, txt_total, txt_tanggal, txt_catatan;
-        ImageView img_order, img_option;
+        ImageView img_order;
 
         OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,7 +114,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             txt_tanggal = itemView.findViewById(R.id.txt_tanggal);
             txt_catatan = itemView.findViewById(R.id.txt_catatan);
             img_order = itemView.findViewById(R.id.img_order);
-            img_option = itemView.findViewById(R.id.img_option);
+            layout_root = itemView.findViewById(R.id.layout_root);
+            //img_option = itemView.findViewById(R.id.img_option);
         }
     }
 }

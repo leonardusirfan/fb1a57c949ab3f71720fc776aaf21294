@@ -1,17 +1,17 @@
 package id.net.gmedia.selbiartis;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +20,14 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 import com.leonardus.irfan.ApiVolleyManager;
 import com.leonardus.irfan.AppRequestCallback;
+import com.leonardus.irfan.Converter;
 import com.leonardus.irfan.ImageSlider.ImageSlider;
 import com.leonardus.irfan.ImageSlider.ImageSliderAdapter;
 import com.leonardus.irfan.JSONBuilder;
+import com.leonardus.irfan.SimpleObjectModel;
 import com.leonardus.irfan.TopCropCircularImageView;
 
 import org.json.JSONArray;
@@ -38,117 +41,45 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class MainActivity extends AppCompatActivity {
 
+    private UserModel artis;
+
+    //Variabel UI
     private ImageSlider slider;
+    private TextView txt_special_offer;
+    private RecyclerView rv_special_offer;
+    private SpecialOfferAdapter adapter;
+
+    private List<SimpleObjectModel> listOffer = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
+        setSupportActionBar((Toolbar)findViewById(R.id.toolbar));
         if(getSupportActionBar() != null){
             getSupportActionBar().setTitle("");
-        }*/
+        }
 
         slider = findViewById(R.id.slider);
+        txt_special_offer = findViewById(R.id.txt_special_offer);
+        rv_special_offer = findViewById(R.id.rv_special_offer);
 
-        findViewById(R.id.btn_upload).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_upload_barang).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DisplayMetrics metrics = getResources().getDisplayMetrics();
-                int device_TotalWidth = metrics.widthPixels;
-                int device_TotalHeight = metrics.heightPixels;
-
-                Dialog dialog = new Dialog(MainActivity.this);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.popup_upload);
-
-                if(dialog.getWindow() != null){
-                    dialog.getWindow().setLayout(device_TotalWidth, device_TotalHeight * 70 / 100); // set here your value
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                    lp.copyFrom(dialog.getWindow().getAttributes());
-                    lp.gravity = Gravity.BOTTOM;
-                    lp.windowAnimations = R.style.DialogAnimation;
-                    dialog.getWindow().setAttributes(lp);
-                }
-
-                dialog.findViewById(R.id.btn_preloved).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, UploadBarangActivity.class);
-                        i.putExtra(Constant.EXTRA_JENIS_BARANG, Constant.BARANG_PRELOVED);
-                        startActivity(i);
-                    }
-                });
-
-                dialog.findViewById(R.id.btn_merchandise).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, UploadBarangActivity.class);
-                        i.putExtra(Constant.EXTRA_JENIS_BARANG, Constant.BARANG_MERCHANDISE);
-                        startActivity(i);
-                    }
-                });
-
-                dialog.findViewById(R.id.btn_lelang).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, UploadBarangActivity.class);
-                        i.putExtra(Constant.EXTRA_JENIS_BARANG, Constant.BARANG_LELANG);
-                        startActivity(i);
-                    }
-                });
-
-                dialog.findViewById(R.id.btn_galeri).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, UploadFeedActivity.class);
-                        i.putExtra(Constant.EXTRA_START_POSITION, 1);
-                        startActivity(i);
-                    }
-                });
-
-                dialog.findViewById(R.id.btn_kegiatan).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, UploadFeedActivity.class);
-                        i.putExtra(Constant.EXTRA_START_POSITION, 0);
-                        startActivity(i);
-                    }
-                });
-
-                /*
-                dialog.findViewById(R.id.txt_pesan).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, MerchandiseOrderActivity.class));
-                    }
-                });*/
-
-                dialog.show();
+                Intent i = new Intent(MainActivity.this, UploadBarangActivity.class);
+                i.putExtra(Constant.EXTRA_JENIS_BARANG, Constant.BARANG_PRELOVED);
+                startActivity(i);
             }
         });
 
-        findViewById(R.id.action_notif).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_upload_kegiatan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NotifActivity.class));
-            }
-        });
-
-        findViewById(R.id.action_chat).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ChatActivity.class));
-            }
-        });
-
-        findViewById(R.id.action_order).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, OrderActivity.class));
+                Intent i = new Intent(MainActivity.this, UploadFeedActivity.class);
+                i.putExtra(Constant.EXTRA_START_POSITION, 0);
+                startActivity(i);
             }
         });
 
@@ -162,14 +93,24 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_order_merchandise).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MerchandiseOrderActivity.class));
+                if(artis != null){
+                    Intent i = new Intent(MainActivity.this, MerchandiseOrderActivity.class);
+                    i.putExtra(Constant.EXTRA_NAMA_USER, artis.getNama());
+                    startActivity(i);
+                }
             }
         });
 
-        findViewById(R.id.btn_greeting).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.layout_header).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, OrderGreetingActivity.class));
+                if(artis != null){
+                    Gson gson = new Gson();
+                    Intent i = new Intent(MainActivity.this, AkunActivity.class);
+                    i.putExtra(Constant.EXTRA_USER, gson.toJson(artis));
+                    startActivity(i);
+                }
+
             }
         });
 
@@ -188,15 +129,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(String result) {
                         try{
-                            JSONObject artis = new JSONObject(result);
+                            JSONObject response = new JSONObject(result);
 
                             //Inisialisasi UI terkait artis
-                            Glide.with(MainActivity.this).load(artis.getString("foto")).
+                            artis = new UserModel(response.getString("id"),
+                                    response.getString("profile_name"), response.getString("foto"));
+                            Glide.with(MainActivity.this).load(artis.getImage()).
                                     thumbnail(0.3f).apply(new RequestOptions().dontTransform().
                                     dontAnimate().priority(Priority.IMMEDIATE).override(500, 300)).
                                     transition(DrawableTransitionOptions.withCrossFade()).into((TopCropCircularImageView)findViewById(R.id.img_artis));
+                            ((TextView)findViewById(R.id.txt_artis)).setText(artis.getNama());
 
-                            ((TextView)findViewById(R.id.txt_artis)).setText(artis.getString("profile_name"));
+                            loadSpecialOffer();
                         }
                         catch (JSONException e){
                             Toast.makeText(MainActivity.this, R.string.error_json, Toast.LENGTH_SHORT).show();
@@ -240,6 +184,23 @@ public class MainActivity extends AppCompatActivity {
                 }));
     }
 
+    private void loadSpecialOffer(){
+        listOffer.add(new SimpleObjectModel("", Converter.getURLForResource("id.net.gmedia.selbiartis", R.drawable.offer1)));
+        listOffer.add(new SimpleObjectModel("", Converter.getURLForResource("id.net.gmedia.selbiartis", R.drawable.offer2)));
+
+        if(listOffer.size() > 0){
+            String offer = "Special offer untuk " + artis.getNama();
+            txt_special_offer.setText(offer);
+            txt_special_offer.setVisibility(View.VISIBLE);
+
+            rv_special_offer.setVisibility(View.VISIBLE);
+            rv_special_offer.setItemAnimator(new DefaultItemAnimator());
+            rv_special_offer.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+            adapter = new SpecialOfferAdapter(MainActivity.this, listOffer);
+            rv_special_offer.setAdapter(adapter);
+        }
+    }
+
     private void initSlider(List<String> images){
         ImageSliderAdapter sliderAdapter = new ImageSliderAdapter(MainActivity.this, images, true);
         CircleIndicator indicator = findViewById(R.id.main_indicator);
@@ -267,5 +228,27 @@ public class MainActivity extends AppCompatActivity {
                 }));
 
         super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_chat:
+                startActivity(new Intent(MainActivity.this, ChatActivity.class));
+                return true;
+            case R.id.action_notif:
+                startActivity(new Intent(MainActivity.this, NotifActivity.class));
+                return true;
+            case R.id.action_order:
+                startActivity(new Intent(MainActivity.this, OrderActivity.class));
+                return true;
+            default:return super.onOptionsItemSelected(item);
+        }
     }
 }

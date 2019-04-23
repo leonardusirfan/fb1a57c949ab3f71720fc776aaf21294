@@ -36,6 +36,7 @@
     <dimen name="user_profile_size">48dp</dimen>
     <dimen name="medium_user_profile_size">90dp</dimen>
     <dimen name="gradient_height">100dp</dimen>
+    <dimen name="upload_item_size">120dp</dimen>
 
     <dimen name="upload_barang_button_height">52dp</dimen>
     <dimen name="upload_barang_header_icon_size">80dp</dimen>
@@ -48,4 +49,7 @@
     <dimen name="image_zoom_navigation_size">35dp</dimen>
     <dimen name="main_logo_height">30dp</dimen>
     <dimen name="main_logo_width">100dp</dimen>
+    <dimen name="merchandise_upload_kamera_size">80dp</dimen>
+    <dimen name="special_offer_width">180dp</dimen>
+    <dimen name="special_offer_height">240dp</dimen>
 </resources>

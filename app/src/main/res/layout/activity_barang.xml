@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BarangActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="?attr/actionBarSize">
+
+        <EditText
+            android:id="@+id/txt_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.8"
+            android:layout_marginStart="@dimen/dp10"
+            android:layout_marginEnd="@dimen/dp10"
+            android:inputType="textPersonName"
+            android:imeOptions="actionDone"
+            android:visibility="gone" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_barang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:tabSelectedTextColor="@color/dark_blue"
+            app:tabIndicatorColor="@color/dark_blue"
+            app:tabTextColor="@color/black"
+            android:background="@color/white"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/btn_search"
+            android:layout_width="@dimen/medium_icon_size"
+            android:layout_height="@dimen/medium_icon_size"
+            android:layout_margin="@dimen/dp10"
+            android:src="@drawable/search"/>
+
+        <ImageView
+            android:layout_width="@dimen/medium_icon_size"
+            android:layout_height="@dimen/medium_icon_size"
+            android:layout_margin="@dimen/dp10" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_barang"
+        android:layout_below="@id/layout_header"
+        android:paddingEnd="@dimen/dp20"
+        android:paddingStart="@dimen/dp20"
+        android:paddingTop="@dimen/dp20"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/txt_kosong"
+        android:layout_below="@id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/kosong_artis_barang"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/dark_grey"
+        android:textSize="@dimen/sp20"
+        android:visibility="gone"/>
+
+</RelativeLayout>

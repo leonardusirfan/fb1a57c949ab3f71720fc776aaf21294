@@ -6,17 +6,16 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.leonardus.irfan.ApiVolleyManager;
 import com.leonardus.irfan.AppLoading;
 import com.leonardus.irfan.AppRequestCallback;
+import com.leonardus.irfan.Converter;
 import com.leonardus.irfan.JSONBuilder;
 import com.leonardus.irfan.LoadMoreScrollListener;
 import com.leonardus.irfan.SimpleObjectModel;
@@ -31,13 +30,15 @@ import java.util.List;
 public class MerchandiseOrderActivity extends AppCompatActivity {
 
     //Variabel pencarian barang
-    private String kategori = "";
-    private String search = "";
+    /*private String kategori = "";
+    private String search = "";*/
+    private String nama_artis = "";
 
     //Variabel list dan adapter
+    private RecyclerView rv_rekomendasi;
     private List<MerchandiseModel> listBarang = new ArrayList<>();
-    private List<SimpleObjectModel> listKategori = new ArrayList<>();
-    private KategoriAdapter kategoriAdapter;
+    private List<SimpleObjectModel> listRekomendasi = new ArrayList<>();
+    private SpecialOfferAdapter rekomendasiAdapter;
     private RecyclerView.Adapter barangAdapter;
     private LoadMoreScrollListener loadMoreScrollListener;
 
@@ -47,59 +48,47 @@ public class MerchandiseOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_merchandise_order);
 
         //Inisialisasi Toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("");
+            getSupportActionBar().setTitle("Merchandise");
         }
 
         //Inisialisasi UI
-        RecyclerView rv_kategori = findViewById(R.id.rv_kategori);
-        RecyclerView rv_barang = findViewById(R.id.rv_list);
-        EditText txt_search = findViewById(R.id.txt_search);
-        txt_search.setHint(R.string.cari_barang);
+        rv_rekomendasi = findViewById(R.id.rv_rekomendasi);
+        RecyclerView rv_merchandise = findViewById(R.id.rv_merchandise);
+        TextView txt_special_offer = findViewById(R.id.txt_special_offer);
+
+        if(getIntent().hasExtra(Constant.EXTRA_NAMA_USER)){
+            nama_artis = getIntent().getStringExtra(Constant.EXTRA_NAMA_USER);
+        }
 
         //Init Recycler View dan Adapter
-        listKategori.add(new SimpleObjectModel("", "Semua Kategori"));
-        kategoriAdapter = new KategoriAdapter(this, listKategori);
+        /*rekomendasiAdapter = new KategoriAdapter(this, listKategori);
         rv_kategori.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rv_kategori.setItemAnimator(new DefaultItemAnimator());
-        rv_kategori.setAdapter(kategoriAdapter);
+        rv_kategori.setAdapter(kategoriAdapter);*/
+
+        String special_offer = "Special Offer";
+        if(!nama_artis.equals("")){
+            special_offer += "untuk " + nama_artis;
+        }
+        txt_special_offer.setText(special_offer);
 
         //Inisialisasi Recycler View & Adapter
         barangAdapter = new MerchandiseAdapter(this, listBarang);
-        rv_barang.setItemAnimator(new DefaultItemAnimator());
-        rv_barang.setLayoutManager(new GridLayoutManager(this, 2));
-        rv_barang.setAdapter(barangAdapter);
+        rv_merchandise.setItemAnimator(new DefaultItemAnimator());
+        rv_merchandise.setLayoutManager(new GridLayoutManager(this, 2));
+        rv_merchandise.setAdapter(barangAdapter);
         loadMoreScrollListener = new LoadMoreScrollListener() {
             @Override
             public void onLoadMore() {
                 loadMerchandise(false);
             }
         };
-        rv_barang.addOnScrollListener(loadMoreScrollListener);
+        rv_merchandise.addOnScrollListener(loadMoreScrollListener);
 
-        txt_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                search = s.toString();
-                loadMerchandise(false);
-            }
-        });
-
-        //Inisialisasi Kategori
-        initKategori();
+        loadSpecialOffer();
+        loadMerchandise(true);
     }
 
     @Override
@@ -108,13 +97,28 @@ public class MerchandiseOrderActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    //Mengubah kategori
-    public void setKategori(String kategori){
-        this.kategori = kategori;
-        loadMerchandise(true);
+    private void loadSpecialOffer(){
+        listRekomendasi.add(new SimpleObjectModel("", Converter.getURLForResource("id.net.gmedia.selbiartis", R.drawable.offer1)));
+        listRekomendasi.add(new SimpleObjectModel("", Converter.getURLForResource("id.net.gmedia.selbiartis", R.drawable.offer2)));
+
+        if(listRekomendasi.size() > 0){
+            //String offer = "Special offer untuk " + artis.getNama();
+            findViewById(R.id.layout_rekomendasi).setVisibility(View.VISIBLE);
+
+            rv_rekomendasi.setItemAnimator(new DefaultItemAnimator());
+            rv_rekomendasi.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            rekomendasiAdapter = new SpecialOfferAdapter(this, listRekomendasi);
+            rv_rekomendasi.setAdapter(rekomendasiAdapter);
+        }
     }
 
-    private void initKategori(){
+    //Mengubah kategori
+    /*public void setKategori(String kategori){
+        this.kategori = kategori;
+        loadMerchandise(true);
+    }*/
+
+    /*private void initKategori(){
         JSONBuilder body = new JSONBuilder();
         body.add("start", 0);
         body.add("count", "");
@@ -142,7 +146,7 @@ public class MerchandiseOrderActivity extends AppCompatActivity {
                         Toast.makeText(MerchandiseOrderActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 }));
-    }
+    }*/
 
     private void loadMerchandise(final boolean init){
         final int LOAD_COUNT = 12;
@@ -155,8 +159,8 @@ public class MerchandiseOrderActivity extends AppCompatActivity {
         JSONBuilder body = new JSONBuilder();
         body.add("start", loadMoreScrollListener.getLoaded());
         body.add("count", LOAD_COUNT);
-        body.add("keyword", search);
-        body.add("kategori", kategori);
+        /*body.add("keyword", search);
+        body.add("kategori", kategori);*/
 
         ApiVolleyManager.getInstance().addRequest(this, Constant.URL_MERCHANDISE_LIST, ApiVolleyManager.METHOD_POST,
                 Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), body.create(), new AppRequestCallback(new AppRequestCallback.RequestListener() {
