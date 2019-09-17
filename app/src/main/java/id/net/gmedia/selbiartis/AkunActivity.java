@@ -92,6 +92,17 @@ public class AkunActivity extends AppCompatActivity {
                 startActivity(new Intent(AkunActivity.this, AkunProfilActivity.class));
             }
         });
+
+        findViewById(R.id.btn_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppSharedPreferences.setLoggedIn(AkunActivity.this, true);
+                Intent i = new Intent(AkunActivity.this, LoginActivity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+            }
+        });
     }
 
     @Override

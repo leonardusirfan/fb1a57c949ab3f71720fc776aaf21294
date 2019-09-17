@@ -22,6 +22,9 @@ import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
+    private final int action_penawaran = 198;
+    private final int action_konfirmasi = 197;
+
     private Activity activity;
     private List<OrderModel> listOrder;
 
@@ -37,8 +40,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final OrderViewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull OrderViewHolder holder, int i) {
         final OrderModel order = listOrder.get(i);
+        final OrderViewHolder final_holder = holder;
 
         holder.txt_nama.setText(order.getNama());
         holder.txt_tanggal.setText(order.getTanggal());
@@ -50,10 +54,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(activity, holder.layout_root, Gravity.END);
+                PopupMenu popup = new PopupMenu(activity, final_holder.layout_root, Gravity.END);
                 //Inflating the Popup using xml file
                 popup.getMenuInflater()
                         .inflate(R.menu.menu_order, popup.getMenu());
+                if(order.getStatus() == OrderModel.STATUS_MENUNGGU_PERSETUJUAN){
+                    popup.getMenu().add(1, action_penawaran, 2, "Penawaran Desain");
+                }
+                else if(order.getStatus() == OrderModel.STATUS_DISETUJUI){
+                    popup.getMenu().add(2, action_konfirmasi, 3, "Konfirmasi Merchandise");
+                }
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -71,15 +81,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                                 ((OrderActivity) activity).batalOrder(order.getId_order());
                                 return true;
                             }
-                            case R.id.action_penawaran: {
+                            case action_penawaran: {
                                 Intent i = new Intent(activity, MerchandisePenawaranActivity.class);
                                 i.putExtra(Constant.EXTRA_MERCHANDISE, gson.toJson(order));
                                 activity.startActivity(i);
                                 return true;
                             }
-                            case R.id.action_konfirmasi:{
+                            case action_konfirmasi:{
                                 Intent i = new Intent(activity, MerchandiseKonfirmasiActivity.class);
-                                i.putExtra(Constant.EXTRA_MERCHANDISE, gson.toJson(order));
+                                i.putExtra(Constant.EXTRA_ID_ORDER, order.getId_order());
                                 activity.startActivity(i);
                                 return true;
                             }

@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -67,16 +69,15 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
     public void onBindViewHolder(@NonNull MerchandisePenawaranViewHolder holder, int i) {
         final PenawaranModel p = listDesain.get(i);
 
-        /*if(p.getStatus() == 1){
-            holder.layout_approval.setVisibility(View.VISIBLE);
-            holder.txt_status.setVisibility(View.GONE);
+        if(p.getStatus() != 1){
+            holder.cb_penawaran.setVisibility(View.INVISIBLE);
+            holder.txt_status.setVisibility(View.VISIBLE);
+            holder.txt_status.setText(p.getStatus_string());
         }
         else{
-            holder.layout_approval.setVisibility(View.GONE);
-            holder.txt_status.setVisibility(View.VISIBLE);
-
-            holder.txt_status.setText(p.getStatus_string());
-        }*/
+            holder.cb_penawaran.setVisibility(View.VISIBLE);
+            holder.txt_status.setVisibility(View.GONE);
+        }
 
         holder.txt_penawaran.setText(p.getJudul());
         if (!p.getKeterangan().equals("")){
@@ -95,6 +96,17 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
                 ((MerchandisePenawaranActivity)activity).responPenawaran(false, p.getId(), p.getTolak());
             }
         });*/
+        holder.cb_penawaran.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    p.setSelected(true);
+                }
+                else{
+                    p.setSelected(false);
+                }
+            }
+        });
 
         if(holder instanceof MerchandisePenawaranSatu){
             Glide.with(activity).load(p.getListDesain().get(0)).transition(DrawableTransitionOptions.withCrossFade()).
@@ -160,7 +172,8 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
     class MerchandisePenawaranViewHolder extends RecyclerView.ViewHolder{
 
         private TextView txt_penawaran, txt_keterangan;
-        //private txt_status;
+        private CheckBox cb_penawaran;
+        private TextView txt_status;
         //private LinearLayout layout_approval;
         //private Button btn_terima, btn_tolak;
 
@@ -168,10 +181,11 @@ public class MerchandisePenawaranAdapter extends RecyclerView.Adapter<Merchandis
             super(itemView);
             txt_penawaran = itemView.findViewById(R.id.txt_penawaran);
             txt_keterangan = itemView.findViewById(R.id.txt_keterangan);
+            cb_penawaran = itemView.findViewById(R.id.cb_penawaran);
             /*btn_terima = itemView.findViewById(R.id.btn_terima);
             btn_tolak = itemView.findViewById(R.id.btn_tolak);*/
             //layout_approval = itemView.findViewById(R.id.layout_approval);
-            //txt_status = itemView.findViewById(R.id.txt_status);
+            txt_status = itemView.findViewById(R.id.txt_status);
         }
     }
 

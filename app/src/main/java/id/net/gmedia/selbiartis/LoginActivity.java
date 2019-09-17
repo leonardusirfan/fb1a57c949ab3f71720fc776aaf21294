@@ -272,7 +272,6 @@ public class LoginActivity extends AppCompatActivity {
         body.add("type", type);
         body.add("fcm_id", fcm_id);
 
-        System.out.println(body.create());
         ApiVolleyManager.getInstance().addRequest(this, Constant.URL_AUTENTIFIKASI,
                 ApiVolleyManager.METHOD_POST, Constant.HEADER_AUTH, body.create(),
                 new AppRequestCallback(new AppRequestCallback.SimpleRequestListener() {

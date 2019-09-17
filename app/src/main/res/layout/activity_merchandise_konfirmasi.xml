@@ -19,8 +19,8 @@
         app:layout_constraintEnd_toStartOf="@+id/vertical2"
         app:layout_constraintStart_toStartOf="@+id/vertical1" />
 
-    <ImageView
-        android:id="@+id/img_merchandise"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_foto"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/horizontal2"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="@+id/vertical1"
         app:layout_constraintTop_toTopOf="@+id/horizontal1" />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/btn_upload"
         android:layout_width="@dimen/merchandise_upload_kamera_size"
         android:layout_height="@dimen/merchandise_upload_kamera_size"
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toStartOf="@+id/vertical2"
         app:layout_constraintStart_toStartOf="@+id/vertical1"
         app:layout_constraintTop_toTopOf="@+id/horizontal1"
-        android:src="@drawable/custom_kamera"/>
+        android:src="@drawable/custom_kamera"/>-->
 
     <Button
         android:id="@+id/btn_konfirmasi"

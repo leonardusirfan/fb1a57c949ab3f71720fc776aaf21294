@@ -9,16 +9,29 @@ public class BarangModel {
 
     private int jenis;
     private UserModel penjual;
-    private int stok;
+    private int stok = 0;
+    private int terjual = 0;
 
-    public BarangModel( int jenis, String id, String nama, String url, double harga, int stok, UserModel penjual){
+    public BarangModel( int jenis, String id, String nama, String url, double harga, int stok, int terjual){
         this.id = id;
         this.nama = nama;
         this.url = url;
         this.harga = harga;
         this.jenis = jenis;
-        this.penjual = penjual;
+        this.terjual = terjual;
         this.stok = stok;
+    }
+
+    public BarangModel( int jenis, String id, String nama, String url, double harga){
+        this.id = id;
+        this.nama = nama;
+        this.url = url;
+        this.harga = harga;
+        this.jenis = jenis;
+    }
+
+    public int getTerjual() {
+        return terjual;
     }
 
     public int getStok() {

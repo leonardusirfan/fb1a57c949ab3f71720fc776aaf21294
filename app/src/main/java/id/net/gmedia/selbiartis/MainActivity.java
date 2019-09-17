@@ -1,7 +1,6 @@
 package id.net.gmedia.selbiartis;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageSlider slider;
     private TextView txt_special_offer;
     private RecyclerView rv_special_offer;
-    private SpecialOfferAdapter adapter;
+
 
     private List<SimpleObjectModel> listOffer = new ArrayList<>();
 
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
             rv_special_offer.setVisibility(View.VISIBLE);
             rv_special_offer.setItemAnimator(new DefaultItemAnimator());
             rv_special_offer.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-            adapter = new SpecialOfferAdapter(MainActivity.this, listOffer);
+            SpecialOfferAdapter adapter = new SpecialOfferAdapter(MainActivity.this, listOffer);
             rv_special_offer.setAdapter(adapter);
         }
     }
@@ -206,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
         CircleIndicator indicator = findViewById(R.id.main_indicator);
         slider.setIndicator(indicator);
         slider.setAdapter(sliderAdapter);
-        slider.setAutoscroll(2500);
+        sliderAdapter.setAutoscroll(2500);
     }
 
     @Override

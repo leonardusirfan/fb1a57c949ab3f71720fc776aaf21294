@@ -43,7 +43,7 @@ public class OrderActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("Semua Pesanan"));
-        tabLayout.addTab(tabLayout.newTab().setText("Penawaran Desain"));
+        tabLayout.addTab(tabLayout.newTab().setText("Menunggu Konfirmasi"));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -73,8 +73,12 @@ public class OrderActivity extends AppCompatActivity {
             }
         };
         rv_order.addOnScrollListener(loadManager);
+    }
 
+    @Override
+    protected void onResume() {
         loadOrder(true);
+        super.onResume();
     }
 
     private void switchOrder(boolean semua){
@@ -126,9 +130,9 @@ public class OrderActivity extends AppCompatActivity {
                                         order.getString("id_merchandise"), order.getString("merchandise"),
                                         order.getString("path") + order.getString("image"),
                                         order.getInt("jumlah"), order.getDouble("harga"), order.getString("tgl"),
-                                        order.getString("keterangan"));
+                                        order.getString("keterangan"), order.getInt("status"));
                                 listOrder.add(o);
-                                if(order.getInt("status") == 2){
+                                if(o.getStatus() == OrderModel.STATUS_MENUNGGU_PERSETUJUAN || o.getStatus() == OrderModel.STATUS_DISETUJUI){
                                     listOrderPenawaran.add(o);
                                 }
                             }

@@ -37,8 +37,9 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final NotifViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull NotifViewHolder viewHolder, int i) {
         final NotifModel notif = listNotif.get(i);
+        final NotifViewHolder final_holder = viewHolder;
 
         Glide.with(activity).load(notif.getImage()).transition(DrawableTransitionOptions.withCrossFade()).into(viewHolder.img_user);
         viewHolder.txt_notifikasi.setText(notif.getNotif());
@@ -54,7 +55,7 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
             @Override
             public void onClick(View v) {
                 notif.setProses(true);
-                notifyItemChanged(viewHolder.getAdapterPosition());
+                notifyItemChanged(final_holder.getAdapterPosition());
 
                 updateNotif(notif.getId());
             }
@@ -66,7 +67,8 @@ public class NotifAdapter extends RecyclerView.Adapter<NotifAdapter.NotifViewHol
         body.add("id", id);
 
         ApiVolleyManager.getInstance().addRequest(activity, Constant.URL_NOTIF_READ, ApiVolleyManager.METHOD_POST,
-                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), body.create(), new AppRequestCallback(new AppRequestCallback.SimpleRequestListener() {
+                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), body.create(),
+                new AppRequestCallback(new AppRequestCallback.SimpleRequestListener() {
                     @Override
                     public void onSuccess(String result) {
                     }

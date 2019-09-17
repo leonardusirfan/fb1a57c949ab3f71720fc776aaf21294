@@ -1,7 +1,5 @@
 package id.net.gmedia.selbiartis;
 
-import android.content.Intent;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,6 +19,7 @@ import com.leonardus.irfan.JSONBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +59,46 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
         adapter = new MerchandisePenawaranAdapter(this, listPenawaran);
         rv_penawaran.setAdapter(adapter);
 
+        findViewById(R.id.btn_setuju).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> list_id = new ArrayList<>();
+                for(PenawaranModel p : listPenawaran){
+                    if(p.isSelected()){
+                        list_id.add(p.getId());
+                    }
+                }
+
+                if(list_id.size() > 0){
+                    responPenawaran(list_id, id_setuju);
+                }
+                else{
+                    Toast.makeText(MerchandisePenawaranActivity.this,
+                            "Pilih salah satu desain untuk disetujui", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        findViewById(R.id.btn_tolak).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<String> list_id = new ArrayList<>();
+                for(PenawaranModel p : listPenawaran){
+                    if(p.isSelected()){
+                        list_id.add(p.getId());
+                    }
+                }
+
+                if(list_id.size() > 0){
+                    responPenawaran(list_id, id_tolak);
+                }
+                else{
+                    Toast.makeText(MerchandisePenawaranActivity.this,
+                            "Pilih salah satu desain untuk ditolak", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         loadPenawaran();
     }
 
@@ -86,7 +125,9 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
                             rv_penawaran.setVisibility(View.VISIBLE);
                             txt_kosong.setVisibility(View.INVISIBLE);
 
-                            JSONArray response = new JSONArray(result);
+                            JSONArray response = new JSONObject(result).getJSONArray("data");
+                            id_setuju = new JSONObject(result).getJSONObject("button").getString("setuju");
+                            id_tolak = new JSONObject(result).getJSONObject("button").getString("tolak");
 
                             for(int i = 0; i < response.length(); i++){
                                 PenawaranModel penawaran = new PenawaranModel(response.getJSONObject(i).getString("id_penawaran"),
@@ -94,9 +135,6 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
                                         response.getJSONObject(i).getInt("status"),
                                         response.getJSONObject(i).getString("status_tawar"),
                                         response.getJSONObject(i).getString("keterangan"));
-
-                                id_setuju = response.getJSONObject(i).getString("setuju");
-                                id_tolak = response.getJSONObject(i).getString("tolak");
 
                                 JSONArray images = response.getJSONObject(i).getJSONArray("images");
                                 for(int j = 0; j < images.length(); j++){
@@ -124,11 +162,11 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
                 }));
     }
 
-    public void responPenawaran(final boolean riwayat, String id_penawaran, String status){
+    public void responPenawaran( List<String> id_penawaran, String status){
         AppLoading.getInstance().showLoading(this);
 
         JSONBuilder body = new JSONBuilder();
-        body.add("id_penawaran", id_penawaran);
+        body.add("id_penawaran", new JSONArray(id_penawaran));
         body.add("status", status);
 
         ApiVolleyManager.getInstance().addRequest(this, Constant.URL_MERCHANDISE_APPROVAL, ApiVolleyManager.METHOD_POST,
@@ -136,7 +174,7 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
                 new AppRequestCallback(new AppRequestCallback.SimpleRequestListener() {
                     @Override
                     public void onSuccess(String result) {
-                        if(riwayat){
+                        /*if(riwayat){
                             Intent resultIntent = new Intent(MerchandisePenawaranActivity.this, RiwayatActivity.class);
                             TaskStackBuilder stackBuilder = TaskStackBuilder.create(MerchandisePenawaranActivity.this);
                             stackBuilder.addNextIntentWithParentStack(resultIntent);
@@ -144,8 +182,9 @@ public class MerchandisePenawaranActivity extends AppCompatActivity {
                         }
                         else{
                             onBackPressed();
-                        }
+                        }*/
 
+                        onBackPressed();
                         AppLoading.getInstance().stopLoading();
                     }
 

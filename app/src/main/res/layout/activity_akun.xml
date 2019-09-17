@@ -2,7 +2,6 @@
 <ScrollView
     android:id="@+id/layout_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -60,9 +59,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/infopribadi"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -108,9 +108,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/prelove"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -134,9 +135,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/merchandise"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -160,9 +162,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/lelang"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -186,9 +189,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/donasi"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -212,9 +216,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/transaksi"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -240,9 +245,10 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/folower"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -267,15 +273,44 @@
 
             <ImageView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:src="@drawable/akun"/>
+                android:src="@drawable/bantuan"/>
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:text="Bantuan"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:padding="@dimen/dp5"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp10"
+            android:background="#F7F8F3"/>
+
+        <LinearLayout
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center"
+                android:layout_weight="0.2"
+                android:src="@drawable/logouticon"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="Logout"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:padding="@dimen/dp5"/>

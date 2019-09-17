@@ -10,7 +10,7 @@
         android:title="Batalkan Order"
         app:showAsAction="always" />
 
-    <item
+    <!--<item
         android:id="@+id/action_penawaran"
         android:title="Penawaran Desain"
         app:showAsAction="always" />
@@ -18,5 +18,5 @@
     <item
         android:id="@+id/action_konfirmasi"
         android:title="Konfirmasi Merchandise"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 </menu>

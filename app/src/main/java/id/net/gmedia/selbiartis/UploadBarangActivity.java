@@ -1,9 +1,6 @@
 package id.net.gmedia.selbiartis;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,12 +17,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fxn.pix.Pix;
@@ -34,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.leonardus.irfan.ApiVolleyManager;
 import com.leonardus.irfan.AppRequestCallback;
 import com.leonardus.irfan.Converter;
+import com.leonardus.irfan.DateTimeChooser;
 import com.leonardus.irfan.JSONBuilder;
 import com.leonardus.irfan.SimpleObjectModel;
 
@@ -41,7 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import id.net.gmedia.selbiartis.Upload.UploadAdapter;
@@ -50,11 +45,10 @@ import id.net.gmedia.selbiartis.Upload.UploadModel;
 public class UploadBarangActivity extends AppCompatActivity {
 
     //Variabel UI
-    private Dialog dialog;
     private EditText txt_nama, txt_harga, txt_berat, txt_deskripsi, txt_ukuran;
-    private EditText txt_harga_normal, txt_lama_terpakai;
+    private EditText txt_lama_terpakai;
     //private TextView lbl_harga, lbl_harga_normal;
-    private TextView txt_selesai_lelang, lbl_lama_terpakai;
+    private TextView txt_mulai_lelang, txt_selesai_lelang, lbl_lama_terpakai;
     private Spinner spn_satuan_berat, spn_kondisi, spn_kategori, spn_brand, spn_lama_terpakai;
     private LinearLayout layout_lama_terpakai;
     private CheckBox cb_donasi, cb_lelang;
@@ -68,11 +62,9 @@ public class UploadBarangActivity extends AppCompatActivity {
     private List<SimpleObjectModel> listBrand = new ArrayList<>();
 
     //flag apakah barang yang diupload adalah barang lelang
-    private int JENIS_BARANG;
+    //private int JENIS_BARANG;
 
     //variabel waktu lelang
-    private int endyear, endmonth, enddate, endhour, endminute;
-    private int startyear, startmonth, startdate, starthour, startminute;
     private String end = "";
     private String start = "";
 
@@ -103,9 +95,9 @@ public class UploadBarangActivity extends AppCompatActivity {
         txt_ukuran = findViewById(R.id.txt_ukuran);
         //txt_harga_normal = findViewById(R.id.txt_harga_normal);
         txt_selesai_lelang = findViewById(R.id.txt_selesai_lelang);
+        txt_mulai_lelang = findViewById(R.id.txt_mulai_lelang);
         //lbl_harga = findViewById(R.id.lbl_harga);
         //lbl_harga_normal = findViewById(R.id.lbl_harga_normal);
-        //lbl_selesai_lelang = findViewById(R.id.lbl_selesai_lelang);
         spn_satuan_berat = findViewById(R.id.spn_satuan_berat);
         spn_kategori = findViewById(R.id.spn_kategori);
         spn_kondisi = findViewById(R.id.spn_kondisi);
@@ -116,50 +108,6 @@ public class UploadBarangActivity extends AppCompatActivity {
         spn_lama_terpakai = findViewById(R.id.spn_lama_terpakai);
         cb_donasi = findViewById(R.id.cb_donasi);
         cb_lelang = findViewById(R.id.cb_lelang);
-        txt_selesai_lelang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                startyear = c.get(Calendar.YEAR);
-                startmonth = c.get(Calendar.MONTH);
-                startdate = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(UploadBarangActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                endyear = year;
-                                endmonth = monthOfYear;
-                                enddate = dayOfMonth;
-
-                                Calendar c = Calendar.getInstance();
-                                starthour = c.get(Calendar.HOUR_OF_DAY);
-                                startminute = c.get(Calendar.MINUTE);
-
-                                TimePickerDialog timePickerDialog = new TimePickerDialog(UploadBarangActivity.this,
-                                        new TimePickerDialog.OnTimeSetListener() {
-
-                                            @Override
-                                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                                endhour = hourOfDay;
-                                                endminute = minute;
-
-                                                start = Converter.DTToString(startyear, startmonth + 1, startdate, starthour, startminute, 0);
-                                                end = Converter.DTToString(endyear, endmonth + 1,
-                                                        enddate, endhour, endminute, 0);
-                                                String show = start + " s/d\n" + end;
-                                                txt_selesai_lelang.setText(show);
-                                                System.out.println(validDate());
-                                            }
-                                        }, starthour, startminute, true);
-                                timePickerDialog.show();
-                            }
-                        }, startyear, startmonth, startdate);
-                datePickerDialog.show();
-            }
-        });
         RecyclerView rv_foto = findViewById(R.id.rv_foto);
 
         txt_ukuran.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -174,12 +122,40 @@ public class UploadBarangActivity extends AppCompatActivity {
         });
 
         //Inisialisasi variabel global jenis barang
-        if(getIntent().hasExtra(Constant.EXTRA_JENIS_BARANG)){
+        /*if(getIntent().hasExtra(Constant.EXTRA_JENIS_BARANG)){
             JENIS_BARANG = getIntent().getIntExtra(Constant.EXTRA_JENIS_BARANG, 0);
             if(JENIS_BARANG == Constant.BARANG_LELANG){
-                initLelang();
+                findViewById(R.id.layout_lelang).setVisibility(View.VISIBLE);
             }
-        }
+        }*/
+
+        findViewById(R.id.img_selesai_lelang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateTimeChooser.getInstance().selectDateTime(UploadBarangActivity.this,
+                        new DateTimeChooser.DateTimeListener() {
+                    @Override
+                    public void onFinished(String dateString) {
+                        end = dateString;
+                        txt_selesai_lelang.setText(end);
+                    }
+                });
+            }
+        });
+
+        findViewById(R.id.img_mulai_lelang).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateTimeChooser.getInstance().selectDateTime(UploadBarangActivity.this,
+                        new DateTimeChooser.DateTimeListener() {
+                    @Override
+                    public void onFinished(String dateString) {
+                        start = dateString;
+                        txt_mulai_lelang.setText(start);
+                    }
+                });
+            }
+        });
 
         cb_lelang.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -233,6 +209,14 @@ public class UploadBarangActivity extends AppCompatActivity {
                 if(txt_nama.getText().toString().equals("")){
                     Toast.makeText(UploadBarangActivity.this, "Nama barang belum terisi", Toast.LENGTH_SHORT).show();
                 }
+                if(cb_lelang.isChecked()){
+                    if(end.equals("") || start.equals("")){
+                        Toast.makeText(UploadBarangActivity.this, "Waktu lelang belum diisi", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!validDate()){
+                        Toast.makeText(UploadBarangActivity.this, "Waktu lelang tidak valid", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 else if(txt_harga.getText().toString().equals("")){
                     Toast.makeText(UploadBarangActivity.this, "Harga barang belum terisi", Toast.LENGTH_SHORT).show();
                 }
@@ -241,17 +225,6 @@ public class UploadBarangActivity extends AppCompatActivity {
                 }
                 else if(!uploadAdapter.isAllUploaded()){
                     Toast.makeText(UploadBarangActivity.this, "Tunggu semua gambar ter-Upload", Toast.LENGTH_SHORT).show();
-                }
-                else if(JENIS_BARANG == Constant.BARANG_LELANG) {
-                    if(end.equals("") || start.equals("")){
-                        Toast.makeText(UploadBarangActivity.this, "Waktu lelang belum diisi", Toast.LENGTH_SHORT).show();
-                    }
-                    else if(!validDate()){
-                        Toast.makeText(UploadBarangActivity.this, "Waktu lelang tidak valid", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        uploadBarang();
-                    }
                 }
                 else{
                     uploadBarang();
@@ -346,54 +319,6 @@ public class UploadBarangActivity extends AppCompatActivity {
         }));
     }
 
-    private void initLelang(){
-        findViewById(R.id.layout_lelang).setVisibility(View.VISIBLE);
-        txt_selesai_lelang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar c = Calendar.getInstance();
-                startyear = c.get(Calendar.YEAR);
-                startmonth = c.get(Calendar.MONTH);
-                startdate = c.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(UploadBarangActivity.this,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year,
-                                                  int monthOfYear, int dayOfMonth) {
-
-                                endyear = year;
-                                endmonth = monthOfYear;
-                                enddate = dayOfMonth;
-
-                                Calendar c = Calendar.getInstance();
-                                starthour = c.get(Calendar.HOUR_OF_DAY);
-                                startminute = c.get(Calendar.MINUTE);
-
-                                TimePickerDialog timePickerDialog = new TimePickerDialog(UploadBarangActivity.this,
-                                        new TimePickerDialog.OnTimeSetListener() {
-
-                                            @Override
-                                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                                endhour = hourOfDay;
-                                                endminute = minute;
-
-                                                start = Converter.DTToString(startyear, startmonth + 1, startdate, starthour, startminute, 0);
-                                                end = Converter.DTToString(endyear, endmonth + 1,
-                                                        enddate, endhour, endminute, 0);
-                                                String show = start + " s/d\n" + end;
-                                                txt_selesai_lelang.setText(show);
-                                                System.out.println(validDate());
-                                            }
-                                        }, starthour, startminute, true);
-                                timePickerDialog.show();
-                            }
-                        }, startyear, startmonth, startdate);
-                datePickerDialog.show();
-            }
-        });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && requestCode == 999 && data.hasExtra(Pix.IMAGE_RESULTS)) {
@@ -415,24 +340,13 @@ public class UploadBarangActivity extends AppCompatActivity {
         body.add("kondisi", spn_kondisi.getSelectedItemPosition() == 0 ? 1 : 0 );
         body.add("brand", listBrand.get(spn_brand.getSelectedItemPosition()).getId());
         body.add("kategori", listKategori.get(spn_kategori.getSelectedItemPosition()).getId());
-        body.add("lelang", JENIS_BARANG == Constant.BARANG_LELANG || cb_lelang.isChecked() ?"1":"0");
+        body.add("lelang", cb_lelang.isChecked() ?"1":"0");
         body.add("donasi", cb_donasi.isChecked()?"1":"0");
-        switch (JENIS_BARANG) {
-            case Constant.BARANG_LELANG:
-                body.add("start", start);
-                body.add("end", end);
-                break;
-            case Constant.BARANG_PRELOVED:
-                body.add("start", "");
-                body.add("end", "");
-                body.add("jenis", "1");
-                break;
-            case Constant.BARANG_MERCHANDISE:
-                body.add("start", "");
-                body.add("end", "");
-                body.add("jenis", "2");
-                break;
+        if(cb_lelang.isChecked()){
+            body.add("start", start);
+            body.add("end", end);
         }
+        body.add("jenis", "1"); //input jenis barang preloved (merchandise hanya bisa lewat order)
         body.add("pemakaian", txt_lama_terpakai.getText().toString().equals("")?0:Integer.parseInt(txt_lama_terpakai.getText().toString()));
         body.add("satuan_pemakaian", Constant.getSatuanWaktu(spn_lama_terpakai.getSelectedItemPosition()));
 
@@ -461,24 +375,9 @@ public class UploadBarangActivity extends AppCompatActivity {
     }
 
     private boolean validDate(){
-        if(startyear < endyear){
-            return true;
-        }
-        else if(startyear == endyear){
-            if(startmonth < endmonth){
-                return true;
-            }
-            else if(startmonth == endmonth){
-                if(startdate < enddate){
-                    return true;
-                }
-                else if(startdate == enddate){
-                    return starthour < endhour;
-                }
-            }
-        }
-
-        return false;
+        Date startDate = Converter.stringDTSToDate(start);
+        Date endDate = Converter.stringDTSToDate(end);
+        return startDate.before(endDate);
     }
 
     @Override

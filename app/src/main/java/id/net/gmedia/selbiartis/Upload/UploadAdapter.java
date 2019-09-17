@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.net.gmedia.selbiartis.Constant;
+import id.net.gmedia.selbiartis.MerchandiseKonfirmasiActivity;
 import id.net.gmedia.selbiartis.R;
 
 public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadViewHolder> {
@@ -46,7 +47,14 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
     @NonNull
     @Override
     public UploadViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return new UploadViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_upload, viewGroup, false));
+        if(activity instanceof MerchandiseKonfirmasiActivity){
+            return new UploadViewHolder(LayoutInflater.from(viewGroup.getContext()).
+                    inflate(R.layout.item_upload_konfirmasi_merchandise, viewGroup, false));
+        }
+        else{
+            return new UploadViewHolder(LayoutInflater.from(viewGroup.getContext()).
+                    inflate(R.layout.item_upload, viewGroup, false));
+        }
     }
 
     @Override
@@ -87,6 +95,7 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
                 //preprocess bitmap
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap
                         (activity.getContentResolver(), Uri.fromFile(new File(listPath.get(i))));
+                bitmap = Converter.resizeBitmap(bitmap, 1200);
 
                 //Update recycler view
                 UploadModel u = new UploadModel(bitmap);
@@ -105,11 +114,12 @@ public class UploadAdapter extends RecyclerView.Adapter<UploadAdapter.UploadView
 
     private void uploadBitmap(final UploadModel upload){
         ApiVolleyManager.getInstance().addMultipartRequest(activity, url,
-                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()),
+                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), "pic",
                 Converter.getFileDataFromDrawable(upload.getBitmap()), new ApiVolleyManager.RequestCallback() {
                     @Override
                     public void onSuccess(String result) {
                         try{
+                            Log.e(Constant.TAG, result);
                             String id = new JSONObject(result).getJSONObject("response").getString("id");
 
                             //update status upload

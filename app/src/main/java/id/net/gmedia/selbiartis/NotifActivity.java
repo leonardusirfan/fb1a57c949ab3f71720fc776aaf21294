@@ -25,14 +25,14 @@ import java.util.List;
 
 public class NotifActivity extends AppCompatActivity {
 
-    private String tab_aktif = "sosial";
-
     private List<NotifModel> listNotifSosial = new ArrayList<>();
     private List<NotifModel> listNotifOrder = new ArrayList<>();
 
     private RecyclerView rv_notif;
-    private LoadMoreScrollListener loadManager;
-    private NotifAdapter adapter;
+    private LoadMoreScrollListener sosialLoadManager;
+    private LoadMoreScrollListener pesananLoadManager;
+    private NotifAdapter sosialAdapter;
+    private NotifAdapter pesananAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,65 +67,67 @@ public class NotifActivity extends AppCompatActivity {
         rv_notif = findViewById(R.id.rv_notif);
         rv_notif.setLayoutManager(new LinearLayoutManager(this));
         rv_notif.setItemAnimator(new DefaultItemAnimator());
-        adapter = new NotifAdapter(this, listNotifSosial);
-        rv_notif.setAdapter(adapter);
-        loadManager = new LoadMoreScrollListener() {
+
+        sosialAdapter = new NotifAdapter(this, listNotifSosial);
+        pesananAdapter = new NotifAdapter(this, listNotifOrder);
+
+        rv_notif.setAdapter(sosialAdapter);
+        sosialLoadManager = new LoadMoreScrollListener() {
             @Override
             public void onLoadMore() {
-                loadNotif(false);
+                loadSosial(false);
             }
         };
-        rv_notif.addOnScrollListener(loadManager);
+        pesananLoadManager = new LoadMoreScrollListener() {
+            @Override
+            public void onLoadMore() {
+                loadPesanan(false);
+            }
+        };
+        rv_notif.addOnScrollListener(sosialLoadManager);
 
-        loadNotif(true);
+        loadSosial(true);
+        loadPesanan(true);
     }
 
 
     private void switchTab(boolean sosial){
         if(sosial){
-            tab_aktif = "sosial";
-            rv_notif.setAdapter(new NotifAdapter(this, listNotifSosial));
-            loadNotif(true);
+            rv_notif.setAdapter(sosialAdapter);
+            rv_notif.clearOnScrollListeners();
+            rv_notif.addOnScrollListener(sosialLoadManager);
         }
         else{
-            tab_aktif = "pesanan";
-            rv_notif.setAdapter(new NotifAdapter(this, listNotifOrder));
-            loadNotif(true);
+            rv_notif.setAdapter(pesananAdapter);
+            rv_notif.clearOnScrollListeners();
+            rv_notif.addOnScrollListener(pesananLoadManager);
         }
     }
 
-    private void loadNotif(final boolean init){
+    private void loadPesanan(final boolean init){
+        AppLoading.getInstance().showLoading(this);
         final int LOAD_COUNT = 20;
 
         if(init){
-            AppLoading.getInstance().showLoading(this);
-            loadManager.initLoad();
+            pesananLoadManager.initLoad();
         }
 
         JSONBuilder body = new JSONBuilder();
-        body.add("tipe", tab_aktif);
-        body.add("start", loadManager.getLoaded());
+        body.add("tipe", "pesanan");
+        body.add("start", pesananLoadManager.getLoaded());
         body.add("count", LOAD_COUNT);
 
         ApiVolleyManager.getInstance().addRequest(this, Constant.URL_NOTIF_LIST, ApiVolleyManager.METHOD_POST,
-                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), body.create(), new AppRequestCallback(new AppRequestCallback.RequestListener() {
+                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), body.create(),
+                new AppRequestCallback(new AppRequestCallback.RequestListener() {
                     @Override
                     public void onEmpty(String message) {
                         if(init){
-                            switch (tab_aktif){
-                                case "sosial":{
-                                    listNotifSosial.clear();
-                                    break;
-                                }
-                                case "pesanan":{
-                                    listNotifOrder.clear();
-                                    break;
-                                }
-                            }
-                            adapter.notifyDataSetChanged();
+                            listNotifOrder.clear();
+                            pesananAdapter.notifyDataSetChanged();
                         }
 
-                        loadManager.finishLoad(0);
+                        pesananLoadManager.finishLoad(0);
                         AppLoading.getInstance().stopLoading();
                     }
 
@@ -133,16 +135,8 @@ public class NotifActivity extends AppCompatActivity {
                     public void onSuccess(String result) {
                         try{
                             if(init){
-                                switch (tab_aktif){
-                                    case "sosial":{
-                                        listNotifSosial.clear();
-                                        break;
-                                    }
-                                    case "pesanan":{
-                                        listNotifOrder.clear();
-                                        break;
-                                    }
-                                }
+                                listNotifOrder.clear();
+                                pesananAdapter.notifyDataSetChanged();
                             }
 
                             JSONArray list_notif = new JSONArray(result);
@@ -152,26 +146,17 @@ public class NotifActivity extends AppCompatActivity {
                                 NotifModel n = new NotifModel(notif.getString("id"), notif.getString("foto"),
                                         notif.getString("teks"), notif.getString("insert_at"),
                                         notif.getInt("read")==1);
-                                switch (tab_aktif){
-                                    case "sosial":{
-                                        listNotifSosial.add(n);
-                                        break;
-                                    }
-                                    case "pesanan":{
-                                        listNotifOrder.add(n);
-                                        break;
-                                    }
-                                }
+                                listNotifOrder.add(n);
                             }
 
-                            adapter.notifyDataSetChanged();
-                            loadManager.finishLoad(list_notif.length());
+                            pesananAdapter.notifyDataSetChanged();
+                            pesananLoadManager.finishLoad(list_notif.length());
                         }
                         catch (JSONException e){
                             Toast.makeText(NotifActivity.this, R.string.error_json, Toast.LENGTH_SHORT).show();
                             Log.e(Constant.TAG, e.getMessage());
 
-                            loadManager.finishLoad(0);
+                            pesananLoadManager.finishLoad(0);
                         }
 
                         AppLoading.getInstance().stopLoading();
@@ -181,29 +166,78 @@ public class NotifActivity extends AppCompatActivity {
                     public void onFail(String message) {
                         Toast.makeText(NotifActivity.this, message, Toast.LENGTH_SHORT).show();
 
-                        loadManager.finishLoad(0);
+                        pesananLoadManager.finishLoad(0);
                         AppLoading.getInstance().stopLoading();
                     }
                 }));
-       /* NotifModel n = new NotifModel("", "http://gmedia.bz/selbi/assets/uploads/profile/foto/1547804746202.jpg",
-                Converter.setSelectionBold("Chelsea Islan mulai mengikuti anda",
-                        new ArrayList<>( Arrays.asList("Chelsea Islan"))), "2019-03-04");
-        listNotifSosial.add(n);
+    }
 
-        n = new NotifModel("", "https://graph.facebook.com/2026495770745083/picture",
-                Converter.setSelectionBold("Irfan BayuMahendra mengomentari produk Exclusive Hat Chelsea Islan",
-                        new ArrayList<>( Arrays.asList("Irfan BayuMahendra", "Exclusive Hat Chelsea Islan"))), "2019-03-04");
-        listNotifSosial.add(n);
+    private void loadSosial(final boolean init){
+        AppLoading.getInstance().showLoading(this);
+        final int LOAD_COUNT = 20;
 
-        n = new NotifModel("", "http://gmedia.bz/selbi/assets/uploads/profile/foto/1547804746202.jpg",
-                Converter.setSelectionBold("Chelsea Islan membeli Exclusive Hat Via Vallen",
-                        new ArrayList<>( Arrays.asList("Chelsea Islan", "Exclusive Hat Via Vallen"))), "2019-03-04", false);
-        listNotifOrder.add(n);
+        if(init){
+            sosialLoadManager.initLoad();
+        }
 
-        n = new NotifModel("", "https://graph.facebook.com/2026495770745083/picture",
-                Converter.setSelectionBold("Irfan BayuMahendra membeli Exclusive Hat Via Vallen",
-                        new ArrayList<>( Arrays.asList("Irfan BayuMahendra", "Exclusive Hat Via Vallen"))), "2019-03-04", true);
-        listNotifOrder.add(n);*/
+        JSONBuilder body = new JSONBuilder();
+        body.add("tipe", "sosial");
+        body.add("start", sosialLoadManager.getLoaded());
+        body.add("count", LOAD_COUNT);
+
+        ApiVolleyManager.getInstance().addRequest(this, Constant.URL_NOTIF_LIST, ApiVolleyManager.METHOD_POST,
+                Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), body.create(),
+                new AppRequestCallback(new AppRequestCallback.RequestListener() {
+                    @Override
+                    public void onEmpty(String message) {
+                        if(init){
+                            listNotifSosial.clear();
+                            sosialAdapter.notifyDataSetChanged();
+                        }
+
+                        sosialLoadManager.finishLoad(0);
+                        AppLoading.getInstance().stopLoading();
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        try{
+                            if(init){
+                                listNotifSosial.clear();
+                                sosialAdapter.notifyDataSetChanged();
+                            }
+
+                            JSONArray list_notif = new JSONArray(result);
+
+                            for(int i = 0; i < list_notif.length(); i++){
+                                JSONObject notif = list_notif.getJSONObject(i);
+                                NotifModel n = new NotifModel(notif.getString("id"), notif.getString("foto"),
+                                        notif.getString("teks"), notif.getString("insert_at"),
+                                        notif.getInt("read")==1);
+                                listNotifSosial.add(n);
+                            }
+
+                            sosialAdapter.notifyDataSetChanged();
+                            sosialLoadManager.finishLoad(list_notif.length());
+                        }
+                        catch (JSONException e){
+                            Toast.makeText(NotifActivity.this, R.string.error_json, Toast.LENGTH_SHORT).show();
+                            Log.e(Constant.TAG, e.getMessage());
+
+                            sosialLoadManager.finishLoad(0);
+                        }
+
+                        AppLoading.getInstance().stopLoading();
+                    }
+
+                    @Override
+                    public void onFail(String message) {
+                        Toast.makeText(NotifActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                        sosialLoadManager.finishLoad(0);
+                        AppLoading.getInstance().stopLoading();
+                    }
+                }));
     }
 
     @Override

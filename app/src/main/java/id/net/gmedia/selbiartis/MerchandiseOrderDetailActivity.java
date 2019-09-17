@@ -31,6 +31,17 @@ import com.leonardus.irfan.ImageSlider.ImageSlider;
 import com.leonardus.irfan.ImageSlider.ImageSliderAdapter;
 import com.leonardus.irfan.JSONBuilder;
 import com.leonardus.irfan.SimpleSelectableObjectModel;
+import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
+import com.midtrans.sdk.corekit.core.Constants;
+import com.midtrans.sdk.corekit.core.LocalDataHandler;
+import com.midtrans.sdk.corekit.core.MidtransSDK;
+import com.midtrans.sdk.corekit.core.TransactionRequest;
+import com.midtrans.sdk.corekit.models.BillInfoModel;
+import com.midtrans.sdk.corekit.models.ItemDetails;
+import com.midtrans.sdk.corekit.models.UserAddress;
+import com.midtrans.sdk.corekit.models.UserDetail;
+import com.midtrans.sdk.corekit.models.snap.TransactionResult;
+import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +51,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MerchandiseOrderDetailActivity extends AppCompatActivity {
+public class MerchandiseOrderDetailActivity extends AppCompatActivity implements TransactionFinishedCallback {
+
+    private static final String MERCHANT_BASE_CHECKOUT_URL = "http://gmedia.bz/selbi/api/transaksi/prepayment/";
+    //SANDBOX
+    private static final String MERCHANT_CLIENT_KEY = "SB-Mid-client-vFml_BHcmKOidw7B";
 
     private String id = "";
     private String id_order = "";
@@ -64,6 +79,7 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
         if(getIntent().hasExtra(Constant.EXTRA_ID_MERCHANDISE)){
             id = getIntent().getStringExtra(Constant.EXTRA_ID_MERCHANDISE);
         }
+
         if(getIntent().hasExtra(Constant.EXTRA_ID_ORDER)){
             id_order = getIntent().getStringExtra(Constant.EXTRA_ID_ORDER);
         }
@@ -91,7 +107,8 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
                     showList(txt_warna, listWarna);
                 }
                 else{
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Tidak ada warna tersedia", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Tidak ada warna tersedia", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,7 +120,8 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
                     showList(txt_ukuran, listUkuran);
                 }
                 else{
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Tidak ada ukuran tersedia", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Tidak ada ukuran tersedia", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -111,23 +129,30 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
         findViewById(R.id.btn_order).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(txt_jumlah.getText().toString().equals("") || Integer.parseInt(txt_jumlah.getText().toString()) <= 0){
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Pemesanan minimal 1 barang", Toast.LENGTH_SHORT).show();
+                if(txt_jumlah.getText().toString().equals("") ||
+                        Integer.parseInt(txt_jumlah.getText().toString()) <= 0){
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Pemesanan minimal 1 barang", Toast.LENGTH_SHORT).show();
                 }
                 else if(Integer.parseInt(txt_jumlah.getText().toString()) > 100){
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Pemesanan merchandise maksimal 100 barang", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Pemesanan merchandise maksimal 100 barang", Toast.LENGTH_SHORT).show();
                 }
                 else if(txt_warna.getText().toString().equals("")){
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Warna belum dipilih", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Warna belum dipilih", Toast.LENGTH_SHORT).show();
                 }
                 else if(txt_ukuran.getText().toString().equals("")){
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Ukuran belum dipilih", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Ukuran belum dipilih", Toast.LENGTH_SHORT).show();
                 }
                 else if(txt_harga_jual.getText().toString().equals("")){
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Masukkan harga jual barang", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Masukkan harga jual barang", Toast.LENGTH_SHORT).show();
                 }
                 else if(Double.parseDouble(txt_harga_jual.getText().toString()) < harga_barang){
-                    Toast.makeText(MerchandiseOrderDetailActivity.this, "Harga jual tidak boleh lebih kecil dari harga beli", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Harga jual tidak boleh lebih kecil dari harga beli", Toast.LENGTH_SHORT).show();
                     String harga_jual = String.format(Locale.getDefault(), "%.0f", harga_barang);
                     txt_harga_jual.setText(harga_jual);
                 }
@@ -185,6 +210,17 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
         loadMerchandise();
     }
 
+    private void initTransaksi(){
+        //Inisialisasi transaksi Midtrans
+        SdkUIFlowBuilder.init()
+                .setClientKey(MERCHANT_CLIENT_KEY) // client_key is mandatory
+                .setContext(this) // context is mandatory
+                .setTransactionFinishedCallback(this) // set transaction finish callback (sdk callback)
+                .setMerchantBaseUrl(MERCHANT_BASE_CHECKOUT_URL) //set merchant url (required) BASE_URL
+                .enableLog(true)// enable sdk log (optional)
+                .buildSDK();
+    }
+
     private void pesanMerchandise(){
         JSONBuilder body = new JSONBuilder();
         body.add("id_order", id_order);
@@ -212,7 +248,8 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
                 Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()), body.create(), new AppRequestCallback(new AppRequestCallback.SimpleRequestListener() {
                     @Override
                     public void onSuccess(String result) {
-                        Toast.makeText(MerchandiseOrderDetailActivity.this, "Pemesanan berhasil", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MerchandiseOrderDetailActivity.this,
+                                "Pemesanan berhasil", Toast.LENGTH_SHORT).show();
 
                         Intent resultIntent = new Intent(MerchandiseOrderDetailActivity.this, OrderActivity.class);
                         TaskStackBuilder stackBuilder = TaskStackBuilder.create(MerchandiseOrderDetailActivity.this);
@@ -313,7 +350,8 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
                             initSlider(listImage);
                         }
                         catch (JSONException e){
-                            Toast.makeText(MerchandiseOrderDetailActivity.this, R.string.error_json, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MerchandiseOrderDetailActivity.this,
+                                    R.string.error_json, Toast.LENGTH_SHORT).show();
                             Log.e(Constant.TAG, e.getMessage());
                         }
                     }
@@ -381,5 +419,122 @@ public class MerchandiseOrderDetailActivity extends AppCompatActivity {
     private void initSlider(List<String> listImage){
         ImageSliderAdapter sliderAdapter = new ImageSliderAdapter(this, listImage, true);
         slider.setAdapter(sliderAdapter);
+    }
+
+    @Override
+    public void onTransactionFinished(TransactionResult result) {
+        if (result.getResponse() != null) {
+            switch (result.getStatus()) {
+                case TransactionResult.STATUS_SUCCESS:
+                    Toast.makeText(this, "Transaksi berhasil", Toast.LENGTH_SHORT).show();
+                    Log.d(Constant.TAG, "Transaction Finished. ID: " + result.getResponse().getTransactionId());
+
+                    //Kembali ke home
+                    Toast.makeText(MerchandiseOrderDetailActivity.this,
+                            "Pemesanan berhasil", Toast.LENGTH_SHORT).show();
+
+                    Intent resultIntent = new Intent(MerchandiseOrderDetailActivity.this, OrderActivity.class);
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(MerchandiseOrderDetailActivity.this);
+                    stackBuilder.addNextIntentWithParentStack(resultIntent);
+                    stackBuilder.startActivities();
+
+                    break;
+                case TransactionResult.STATUS_PENDING:
+                    Toast.makeText(this, "Transaksi pending", Toast.LENGTH_SHORT).show();
+                    Log.d(Constant.TAG, "Transaction Pending. ID: " + result.getResponse().getTransactionId());
+                    break;
+                case TransactionResult.STATUS_FAILED:
+                    Toast.makeText(this, "Transaksi gagal", Toast.LENGTH_SHORT).show();
+                    Log.d(Constant.TAG, "Transaction Failed. ID: " + result.getResponse().getTransactionId() + ". Message: " + result.getResponse().getStatusMessage());
+                    break;
+            }
+            result.getResponse().getValidationMessages();
+        } else if (result.isTransactionCanceled()) {
+            Toast.makeText(this, "Transaksi dibatalkan", Toast.LENGTH_LONG).show();
+        } else {
+            if (result.getStatus().equalsIgnoreCase(TransactionResult.STATUS_INVALID)) {
+                Toast.makeText(this, "Transaksi Invalid", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Transaction selesai dengan kegagalan.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void verifyUser(){
+        ApiVolleyManager.getInstance().addRequest(this, Constant.URL_PROFIL,
+                ApiVolleyManager.METHOD_GET, Constant.getTokenHeader(FirebaseAuth.getInstance().getUid()),
+                new AppRequestCallback(new AppRequestCallback.SimpleRequestListener() {
+                    @Override
+                    public void onSuccess(String response) {
+                        try{
+                            JSONObject akun = new JSONObject(response);
+
+                            UserModel user = new UserModel(akun.getString("id"), akun.getString("profile_name"),
+                                    akun.getString("alamat"), akun.getString("no_telp"),
+                                    akun.getString("email"));
+
+                            //userDetail = LocalDataHandler.readObject("user_details", UserDetail.class);
+                            UserDetail userDetail = new UserDetail();
+                            userDetail.setUserFullName(user.getNama());
+                            userDetail.setEmail(user.getEmail());
+                            userDetail.setPhoneNumber(user.getTelepon());
+
+                            ArrayList<UserAddress> userAddresses = new ArrayList<>();
+                            UserAddress userAddress = new UserAddress();
+                            userAddress.setAddress(akun.getString("alamat"));
+                            //userAddress.setCity("Jakarta");
+                            userAddress.setAddressType(Constants.ADDRESS_TYPE_BILLING);
+                            //userAddress.setZipcode("40184");
+                            userAddress.setCountry("IDN");
+                            userAddresses.add(userAddress);
+                            userDetail.setUserAddresses(userAddresses);
+                            LocalDataHandler.saveObject("user_details", userDetail);
+
+                            pembayaran();
+                        }
+                        catch (JSONException e){
+                            Log.e(Constant.TAG, e.getMessage());
+                            Toast.makeText(MerchandiseOrderDetailActivity.this,
+                                    R.string.error_json, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String message) {
+                        Toast.makeText(MerchandiseOrderDetailActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                }));
+    }
+
+    private void pembayaran(){
+       /* ArrayList<ItemDetails> itemDetailsList = new ArrayList<>();
+        for(ArtisModel a : listHeader){
+            String header_id = a.getId();
+
+            //Inisialisasi detail pembayaran
+            for(int i = 0; i < listBarangBeli.get(header_id).size(); i++){
+                BarangJualModel barang = listBarangBeli.get(header_id).get(i);
+                itemDetailsList.add(new ItemDetails(barang.getId(), barang.getHarga(),
+                        barang.getJumlah(), barang.getNama()));
+            }
+
+            //Biaya Ongkir
+            itemDetailsList.add(new ItemDetails("0", listOngkir.get(header_id).getHarga(),
+                    1, listOngkir.get(header_id).getService()));
+        }
+
+        String id_transaksi = String.valueOf(System.currentTimeMillis());
+        TransactionRequest transactionRequest = new TransactionRequest(id_transaksi,
+                harga_total_barang + harga_total_ongkir);
+        Log.d(Constant.TAG, id_transaksi);
+        transactionRequest.setItemDetails(itemDetailsList);
+
+        BillInfoModel billInfoModel = new BillInfoModel("SELBI", "Transaksi");
+        // Set the bill info on transaction details
+        transactionRequest.setBillInfoModel(billInfoModel);
+        MidtransSDK.getInstance().setTransactionRequest(transactionRequest);*/
+
+        MidtransSDK.getInstance().startPaymentUiFlow(MerchandiseOrderDetailActivity.this);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 }

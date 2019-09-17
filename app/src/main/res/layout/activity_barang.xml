@@ -49,14 +49,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_barang"
         android:layout_below="@id/layout_header"
-        android:paddingEnd="@dimen/dp20"
-        android:paddingStart="@dimen/dp20"
-        android:paddingTop="@dimen/dp20"
+        android:padding="@dimen/dp20"
         android:clipToPadding="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/txt_kosong"

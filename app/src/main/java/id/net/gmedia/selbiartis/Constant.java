@@ -36,11 +36,11 @@ public class Constant {
     public static final int BARANG_DONASI = 16;
 
     //URL Request
-    private static final String BASE_URL = "http://gmedia.bz/selbi/api/";
+    private static final String BASE_URL = "https://selbi.co.id/beta/api/";
     public static final String URL_HOME_SLIDE = BASE_URL + "Slider/index";
-    public static final String URL_BARANG_MASTER = BASE_URL + "Produk/index";
+    public static final String URL_BARANG_MASTER = BASE_URL + "Produk/stok_barang";
     public static final String URL_HOME_CATEGORY = BASE_URL + "Category/index";
-    public static final String URL_BARANG_LELANG = BASE_URL + "Lelang/index";
+    public static final String URL_BARANG_LELANG = BASE_URL + "Produk/stok_lelang";
     public static final String URL_HOME_BRAND = BASE_URL + "Brand/index";
     public static final String URL_AUTENTIFIKASI = BASE_URL + "Authentication/register";
     public static final String URL_UPLOAD_GAMBAR = BASE_URL + "Feed/add_image";
@@ -67,6 +67,8 @@ public class Constant {
     public static final String URL_NOTIF_READ = BASE_URL + "Notif/update_notif";
     public static final String URL_GREETING_LIST = BASE_URL + "Greeting/index";
     public static final String URL_STATUS_MASTER = BASE_URL + "Main/status";
+    public static final String URL_MERCHANDISE_KONFIRMASI_UPLOAD = BASE_URL + "Merchandise/upload_merchandise";
+    public static final String URL_MERCHANDISE_KONFIRMASI_KIRIM = BASE_URL + "Merchandise/simpan_merchandise";
 
     //Token heaader dengan enkripsi
     public static Map<String, String> getTokenHeader(String uuid){

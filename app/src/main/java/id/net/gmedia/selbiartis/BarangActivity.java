@@ -90,7 +90,7 @@ public class BarangActivity extends AppCompatActivity {
         });
 
         rv_barang = findViewById(R.id.rv_barang);
-        adapter = new BarangAdapter(this, listBarangAktif);
+        adapter = new BarangAdapter(this, listBarangAktif, JENIS_BARANG == Constant.BARANG_LELANG);
         rv_barang.setLayoutManager(new GridLayoutManager(this, 2));
         rv_barang.setItemAnimator(new DefaultItemAnimator());
         rv_barang.setAdapter(adapter);
@@ -140,7 +140,7 @@ public class BarangActivity extends AppCompatActivity {
         if(is_aktif){
             aktif = true;
 
-            adapter = new BarangAdapter(this, listBarangAktif);
+            adapter = new BarangAdapter(this, listBarangAktif, JENIS_BARANG == Constant.BARANG_LELANG);
             rv_barang.setAdapter(adapter);
             rv_barang.setLayoutManager(new GridLayoutManager(this, 2));
             loadBarang(true);
@@ -148,7 +148,7 @@ public class BarangActivity extends AppCompatActivity {
         else{
             aktif = false;
 
-            adapter = new BarangAdapter(this, listBarangNonAktif);
+            adapter = new BarangAdapter(this, listBarangNonAktif, JENIS_BARANG == Constant.BARANG_LELANG);
             rv_barang.setAdapter(adapter);
             rv_barang.setLayoutManager(new GridLayoutManager(this, 2));
             loadBarang(true);
@@ -166,24 +166,28 @@ public class BarangActivity extends AppCompatActivity {
         //Inisialisasi Barang Jualan Artis dari Web Service
         String url;
         JSONBuilder body = new JSONBuilder();
+        body.add("start", loadManager.getLoaded());
+        body.add("count", LOAD_COUNT);
+        body.add("keyword", search);
+        body.add("aktif", aktif);
+
         if(JENIS_BARANG == Constant.BARANG_LELANG){
             url = Constant.URL_BARANG_LELANG;
-            body.add("id_penjual", user.getId());
         }
         else{
             url = Constant.URL_BARANG_MASTER;
-            body.add("start", loadManager.getLoaded());
-            body.add("count", LOAD_COUNT);
-            body.add("keyword", search);
-            body.add("brand", "");
-            body.add("kategori", "");
-            body.add("penjual", user.getId());
-        }
-        if(JENIS_BARANG == Constant.BARANG_PRELOVED){
-            body.add("jenis", "1");
-        }
-        else if(JENIS_BARANG == Constant.BARANG_MERCHANDISE){
-            body.add("jenis", "2");
+            if(JENIS_BARANG == Constant.BARANG_PRELOVED){
+                body.add("jenis", "1");
+                body.add("donasi", "0");
+            }
+            else if(JENIS_BARANG == Constant.BARANG_MERCHANDISE){
+                body.add("jenis", "2");
+                body.add("donasi", "0");
+            }
+            else if(JENIS_BARANG == Constant.BARANG_DONASI){
+                body.add("jenis", "");
+                body.add("donasi", "1");
+            }
         }
 
         ApiVolleyManager.getInstance().addRequest(this, url,
@@ -219,34 +223,29 @@ public class BarangActivity extends AppCompatActivity {
                                 JSONObject barang = result.getJSONObject(i);
                                 if(aktif){
                                     if(Constant.BARANG_LELANG == JENIS_BARANG){
-                                        listBarangAktif.add(new BarangModel(JENIS_BARANG, barang.getString("id"), barang.getString("nama"),
-                                                barang.getString("image"), barang.getDouble("bid_akhir"),
-                                                0, new UserModel("", barang.getString("penjual"),
-                                                barang.getString("foto"))));
+                                        listBarangAktif.add(new BarangModel(JENIS_BARANG, barang.getString("id"),
+                                                barang.getString("nama"), barang.getString("image"),
+                                                barang.getDouble("harga")));
                                     }
                                     else{
                                         listBarangAktif.add(new BarangModel(JENIS_BARANG,
-                                                barang.getString("id_barang"),
-                                                barang.getString("nama"), barang.getString("image"),
-                                                barang.getDouble("harga"), 0,
-                                                new UserModel("", barang.getString("penjual"),
-                                                        barang.getString("foto_penjual"))));
+                                                barang.getString("id"), barang.getString("nama"),
+                                                barang.getString("image"), barang.getDouble("harga"),
+                                                barang.getInt("stok"), barang.getInt("terjual")));
                                     }
                                 }
                                 else{
                                     if(Constant.BARANG_LELANG == JENIS_BARANG){
-                                        listBarangNonAktif.add(new BarangModel(JENIS_BARANG, barang.getString("id"), barang.getString("nama"),
-                                                barang.getString("image"), barang.getDouble("bid_awal"),
-                                                0, new UserModel("", barang.getString("penjual"),
-                                                barang.getString("foto"))));
+                                        listBarangNonAktif.add(new BarangModel(JENIS_BARANG, barang.getString("id"),
+                                                barang.getString("nama"), barang.getString("image"),
+                                                barang.getDouble("harga")));
                                     }
                                     else{
                                         listBarangNonAktif.add(new BarangModel(JENIS_BARANG,
-                                                barang.getString("id_barang"),
+                                                barang.getString("id"),
                                                 barang.getString("nama"),barang.getString("image"),
-                                                barang.getDouble("harga"), 0,
-                                                new UserModel("", barang.getString("penjual"),
-                                                        barang.getString("foto_penjual"))));
+                                                barang.getDouble("harga"), barang.getInt("stok"),
+                                                barang.getInt("terjual")));
                                     }
                                 }
                             }

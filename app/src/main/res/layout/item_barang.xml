@@ -59,9 +59,20 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/dp2"
         android:textSize="@dimen/sp10"
+        android:visibility="gone"
         android:layout_marginStart="@dimen/dp10"
         android:layout_marginEnd="@dimen/dp10"
-        app:layout_constraintTop_toBottomOf="@+id/txt_nama"
-        tools:layout_editor_absoluteX="-135dp" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_nama" />
+
+    <TextView
+        android:id="@+id/txt_terjual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp2"
+        android:textSize="@dimen/sp10"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/dp10"
+        android:layout_marginEnd="@dimen/dp10"
+        app:layout_constraintTop_toBottomOf="@+id/txt_stok" />
 
 </android.support.constraint.ConstraintLayout>
